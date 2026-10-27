@@ -1,18 +1,21 @@
-# Integracion continua: en cada cambio corre las pruebas unitarias y de integracion con cobertura,
-# las pruebas de sistema en Chromium, Firefox, WebKit y celular, y el analisis de SonarQube Cloud
-# si el repositorio tiene el secreto SONAR_TOKEN.
+# Integracion continua. Dos trabajos en paralelo:
+# - unitarias: Jest con cobertura (caja blanca e integracion) y el analisis de SonarQube Cloud, si el
+#   repositorio tiene el secreto SONAR_TOKEN.
+# - sistema: Playwright en Chromium, Firefox, WebKit y celular, dentro de la imagen oficial de
+#   Playwright, que ya trae los navegadores y sus dependencias. Asi no se descargan del espejo de
+#   Ubuntu, que llego a tardar mas de 30 minutos.
+# Las ramas se prueban en su pull request y main en cada push, para no correr todo dos veces.
 name: Pruebas
 
 on:
   push:
+    branches: [main]
   pull_request:
 
 jobs:
-  pruebas:
+  unitarias:
     runs-on: ubuntu-latest
-    # normalmente tarda unos 3 minutos; el espejo de Ubuntu a veces descarga muy lento las
-    # dependencias de los navegadores, y sin limite GitHub esperaria hasta 6 horas
-    timeout-minutes: 30
+    timeout-minutes: 15
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     steps:
@@ -31,8 +34,27 @@ jobs:
       - name: Pruebas unitarias y de integración con cobertura
         run: npm run test:cobertura
 
-      - name: Instalar los navegadores de Playwright
-        run: npx playwright install --with-deps
+      - name: Análisis de SonarQube Cloud
+        if: env.SONAR_TOKEN != ''
+        uses: SonarSource/sonarqube-scan-action@v5
+
+  sistema:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # la version de la imagen debe ser la misma de @playwright/test en package-lock.json
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --user 1001
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
 
       - name: Pruebas de sistema
         run: npm run test:sistema
@@ -43,7 +65,3 @@ jobs:
         with:
           name: reporte-playwright
           path: playwright-report/
-
-      - name: Análisis de SonarQube Cloud
-        if: env.SONAR_TOKEN != ''
-        uses: SonarSource/sonarqube-scan-action@v5
