@@ -109,7 +109,9 @@ pruebas, en el orden de prioridad del plan de pruebas (Tabla 4 del E1):
 ## GitHub y SonarQube Cloud
 
 1. Subir el repositorio a GitHub. Para usar SonarQube Cloud gratis, el repositorio debe ser público.
-2. El workflow `.github/workflows/pruebas.yml` corre las pruebas en cada push.
+2. El workflow `.github/workflows/pruebas.yml` corre las pruebas en cada pull request y en cada
+   cambio de `main`, en dos trabajos: Jest con SonarQube Cloud, y Playwright dentro de la imagen
+   oficial de Playwright. Si se actualiza `@playwright/test`, hay que cambiar la versión de esa imagen.
 3. En https://sonarcloud.io, importar el repositorio con la cuenta de GitHub, desactivar el
    análisis automático (Administration, Analysis Method) y copiar el token.
 4. En GitHub, guardar el token como secreto del repositorio con el nombre `SONAR_TOKEN`.
