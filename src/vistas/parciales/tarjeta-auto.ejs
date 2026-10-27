@@ -1,5 +1,9 @@
 <article class="tarjeta-auto" data-auto="<%= auto.id %>">
-  <div class="tarjeta-imagen"><img src="/img/silueta-auto.svg" alt="" width="320" height="120"></div>
+<% if (auto.foto_ruta) { %>
+  <div class="tarjeta-imagen"><img src="<%= auto.foto_ruta %>" alt="Foto de referencia de un <%= auto.marca %> <%= auto.modelo %>" width="800" height="533" loading="lazy"></div>
+<% } else { %>
+  <div class="tarjeta-imagen tarjeta-imagen-silueta"><img src="/img/silueta-auto.svg" alt="" width="320" height="120"></div>
+<% } %>
   <div class="tarjeta-cuerpo">
     <p class="condicion condicion-<%= auto.condicion %>"><%= ETIQUETAS.condicion[auto.condicion] %></p>
     <h3 class="tarjeta-titulo"><span class="tarjeta-marca"><%= auto.marca %></span> <%= auto.modelo %></h3>

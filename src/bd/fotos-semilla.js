@@ -1,0 +1,48 @@
+// Fotos de referencia de los autos de prueba, tomadas de Wikimedia Commons con su autor y su
+// licencia. Son del modelo, no del auto exacto. Clave: "condicion:modelo". Las imagenes se
+// recortaron y redujeron a 800 x 533 px; la lista completa esta en docs/creditos-fotos.md.
+
+const FOTOS = {
+  "nuevo:A3 Sedán": {"ruta": "/img/autos/nuevo-a3-sedan.jpg", "autor": "Alexander Migl", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:Audi_A3_8Y_Sedan_IMG_5936.jpg"},
+  "nuevo:Q3": {"ruta": "/img/autos/nuevo-q3.jpg", "autor": "Charles from Port Chester, New York", "licencia": "CC0", "fuente": "https://commons.wikimedia.org/wiki/File:Audi_Q3_2.0_TFSI_S-Line_Quattro_(2026)_(55206166457).jpg"},
+  "nuevo:Q5": {"ruta": "/img/autos/nuevo-q5.jpg", "autor": "© M 93", "licencia": "CC BY-SA 3.0 de", "fuente": "https://commons.wikimedia.org/wiki/File:Audi_Q5_2.0_TDI_quattro_S_line_(GU)_%E2%80%93_f_13102025.jpg"},
+  "nuevo:Q6 e-tron": {"ruta": "/img/autos/nuevo-q6-e-tron.jpg", "autor": "Alexander Migl", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:Audi_Q6_e-tron_DSC_7829.jpg"},
+  "nuevo:118i": {"ruta": "/img/autos/nuevo-118i.jpg", "autor": "Alexander-93", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:BMW_120_(F70)_Leonberg_2024_IMG_1068.jpg"},
+  "nuevo:320i": {"ruta": "/img/autos/nuevo-320i.jpg", "autor": "Alexander-93", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:BMW_G20_(2022)_IMG_7316_(2).jpg"},
+  "nuevo:X1 sDrive18i": {"ruta": "/img/autos/nuevo-x1-sdrive18i.jpg", "autor": "Alexander-93", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:BMW_U11_1X7A6826.jpg"},
+  "nuevo:X3 20 xDrive": {"ruta": "/img/autos/nuevo-x3-20-xdrive.jpg", "autor": "Alexander-93", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:BMW_G45_20_IMG_3794.jpg"},
+  "nuevo:iX1 eDrive20": {"ruta": "/img/autos/nuevo-ix1-edrive20.jpg", "autor": "Tokumeigakarinoaoshima", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:BMW_iX1_xDrive30_xLINE_(U11)_front.jpg"},
+  "nuevo:A 200 Sedán": {"ruta": "/img/autos/nuevo-a-200-sedan.jpg", "autor": "Jengtingchen", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:Mercedes-Benz_A-class_Z177_001.jpg"},
+  "nuevo:C 200": {"ruta": "/img/autos/nuevo-c-200.jpg", "autor": "Alexander Migl", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:Mercedes-Benz_W206_IMG_6380.jpg"},
+  "nuevo:GLA 200": {"ruta": "/img/autos/nuevo-gla-200.jpg", "autor": "© M 93", "licencia": "CC BY-SA 3.0 de", "fuente": "https://commons.wikimedia.org/wiki/File:Mercedes-Benz_GLA_250_e_AMG_Line_(H_247)_%E2%80%93_f_11042021_(exposure_adjusted).jpg"},
+  "nuevo:GLC 300 4MATIC": {"ruta": "/img/autos/nuevo-glc-300-4matic.jpg", "autor": "Alexander Migl", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:Mercedes-Benz_X254_1X7A6343.jpg"},
+  "nuevo:Macan 4 Electric": {"ruta": "/img/autos/nuevo-macan-4-electric.jpg", "autor": "Alexander-93", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:Porsche_Macan_4_IMG_2153.jpg"},
+  "nuevo:Cayenne": {"ruta": "/img/autos/nuevo-cayenne.jpg", "autor": "© M 93", "licencia": "CC BY-SA 3.0 de", "fuente": "https://commons.wikimedia.org/wiki/File:Porsche_Cayenne_(III,_Facelift)_%E2%80%93_f_01012025.jpg"},
+  "nuevo:911 Carrera Cabriolet": {"ruta": "/img/autos/nuevo-911-carrera.jpg", "autor": "Alexander Migl", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:2025_Porsche_992_Carrera_convertible_DSC_7026_(cropped).jpg"},
+  "nuevo:T-Cross": {"ruta": "/img/autos/nuevo-t-cross.jpg", "autor": "© M 93", "licencia": "CC BY-SA 3.0 de", "fuente": "https://commons.wikimedia.org/wiki/File:VW_T-Cross_Style_(Facelift)_%E2%80%93_f_22022025.jpg"},
+  "nuevo:Taos": {"ruta": "/img/autos/nuevo-taos.jpg", "autor": "Alexander-93", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:Volkswagen_Taos_1X7A6750.jpg"},
+  "nuevo:Tiguan": {"ruta": "/img/autos/nuevo-tiguan.jpg", "autor": "Alexander-93", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:Volkswagen_Tiguan_III_IMG_8823_(cropped).jpg"},
+  "nuevo:Amarok": {"ruta": "/img/autos/nuevo-amarok.jpg", "autor": "© M 93", "licencia": "CC BY-SA 3.0 de", "fuente": "https://commons.wikimedia.org/wiki/File:VW_Amarok_3.0_TDI_4Motion_Style_(II)_%E2%80%93_f_05072025.jpg"},
+  "usado:320i": {"ruta": "/img/autos/usado-320i.jpg", "autor": "Vauxford", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:2019_BMW_318d_SE_Automatic_2.0_Front.jpg"},
+  "usado:C 180": {"ruta": "/img/autos/usado-c-180.jpg", "autor": "M 93", "licencia": "CC BY-SA 3.0 de", "fuente": "https://commons.wikimedia.org/wiki/File:Mercedes-Benz_C_200_Avantgarde_(W_205)_%E2%80%93_Frontansicht,_26._April_2014,_D%C3%BCsseldorf.jpg"},
+  "usado:Golf GTI": {"ruta": "/img/autos/usado-golf-gti.jpg", "autor": "Vauxford", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:2017_Volkswagen_Golf_GTi_TSi_2.0_Front.jpg"},
+  "usado:A4": {"ruta": "/img/autos/usado-a4.jpg", "autor": "Tokumeigakarinoaoshima", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:Audi_A4_S_line_Package_(B9)_front.JPG"},
+  "usado:Cayenne Diesel": {"ruta": "/img/autos/usado-cayenne-diesel.jpg", "autor": "M 93", "licencia": "CC BY-SA 3.0 de", "fuente": "https://commons.wikimedia.org/wiki/File:Porsche_Cayenne_S_(92A)_%E2%80%93_Frontansicht,_10._Oktober_2011,_W%C3%BClfrath.jpg"},
+  "usado:X5 xDrive40i": {"ruta": "/img/autos/usado-x5-xdrive40i.jpg", "autor": "Alexander Migl", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:BMW_G05_45e_IMG_3714.jpg"},
+  "usado:Jetta": {"ruta": "/img/autos/usado-jetta.jpg", "autor": "Mr.choppers", "licencia": "CC BY-SA 3.0", "fuente": "https://commons.wikimedia.org/wiki/File:2019_Volkswagen_Jetta_1.4T_R-Line_in_Haba%C3%B1ero_Orange_Metallic,_front_right.jpg"},
+  "usado:GLA 200": {"ruta": "/img/autos/usado-gla-200.jpg", "autor": "Jack Sherman", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:2020_Mercedes-Benz_GLA_200d_Front.jpg"},
+  "usado:Q5": {"ruta": "/img/autos/usado-q5.jpg", "autor": "Vauxford", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:2017_Audi_Q5_S_Line_TFSi_Quattro_2.0_Front.jpg"},
+  "usado:Tiguan": {"ruta": "/img/autos/usado-tiguan.jpg", "autor": "M 93", "licencia": "CC BY-SA 3.0 de", "fuente": "https://commons.wikimedia.org/wiki/File:VW_Tiguan_2.0_TDI_4MOTION_R-Line_(II)_%E2%80%93_Frontansicht,_19._September_2015,_Frankfurt.jpg"},
+  "usado:X1 sDrive20i": {"ruta": "/img/autos/usado-x1-sdrive20i.jpg", "autor": "ThomasGigold", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:BMW_X1_xDrive25d_(F48)_-_Frontansicht_(cropped).jpg"},
+  "usado:Macan S": {"ruta": "/img/autos/usado-macan-s.jpg", "autor": "Vauxford", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:2019_Porsche_Macan_S_S-A_facelift_3.0_Front.jpg"},
+  "usado:E 300": {"ruta": "/img/autos/usado-e-300.jpg", "autor": "Vauxford", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:2019_Mercedes-Benz_E220d_SE_Automatic_2.0_Front.jpg"},
+  "usado:A3": {"ruta": "/img/autos/usado-a3.jpg", "autor": "M 93", "licencia": "CC BY-SA 3.0 de", "fuente": "https://commons.wikimedia.org/wiki/File:Audi_A3_Sportback_S-line_(8V)_%E2%80%93_Frontansicht,_21._Dezember_2014,_D%C3%BCsseldorf.jpg"},
+  "usado:Amarok": {"ruta": "/img/autos/usado-amarok.jpg", "autor": "Vauxford", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:2019_Volkswagen_Amarok_Highline_V6_TDi_4MOTION_3.0_Front.jpg"},
+  "usado:118i": {"ruta": "/img/autos/usado-118i.jpg", "autor": "Vauxford", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:2019_BMW_118i_SE_1.5_Front.jpg"},
+  "usado:911 Carrera": {"ruta": "/img/autos/usado-911-carrera.jpg", "autor": "David Villarreal Fernández", "licencia": "CC BY-SA 2.0", "fuente": "https://commons.wikimedia.org/wiki/File:2013_Porsche_911_Carrera_4S_(991)_(9626546987).jpg"},
+  "usado:Q3": {"ruta": "/img/autos/usado-q3.jpg", "autor": "Vauxford", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:2019_Audi_Q3_S_Line_35_TDi_S-A_2.0_Front.jpg"},
+  "usado:GLC 300": {"ruta": "/img/autos/usado-glc-300.jpg", "autor": "© M 93", "licencia": "CC BY-SA 3.0 de", "fuente": "https://commons.wikimedia.org/wiki/File:Mercedes-Benz_GLC_220_d_4MATIC_AMG_Line_(X_253)_%E2%80%93_Frontansicht,_13._Februar_2016,_Velbert.jpg"},
+  "usado:Polo": {"ruta": "/img/autos/usado-polo.jpg", "autor": "Vauxford", "licencia": "CC BY-SA 4.0", "fuente": "https://commons.wikimedia.org/wiki/File:2018_Volkswagen_Polo_SE_1.0_Front.jpg"},
+};
+
+module.exports = { FOTOS };

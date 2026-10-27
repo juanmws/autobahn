@@ -41,11 +41,17 @@ CREATE TABLE IF NOT EXISTS autos (
 CREATE INDEX IF NOT EXISTS autos_catalogo ON autos (estado, creado_en DESC);
 CREATE INDEX IF NOT EXISTS autos_vendedor ON autos (vendedor_id, estado);
 
+-- La foto de orden 1 es la principal. autor, licencia y fuente son el credito de las fotos de
+-- referencia tomadas de Wikimedia Commons; quedan vacios en las fotos que suba un vendedor.
 CREATE TABLE IF NOT EXISTS fotos (
   id INTEGER PRIMARY KEY,
   auto_id INTEGER NOT NULL REFERENCES autos (id) ON DELETE CASCADE,
   ruta TEXT NOT NULL,
-  orden INTEGER NOT NULL
+  orden INTEGER NOT NULL,
+  autor TEXT,
+  licencia TEXT,
+  fuente TEXT,
+  UNIQUE (auto_id, orden)
 );
 
 -- Pruebas de manejo (RF-07). Un auto no puede tener dos citas en el mismo bloque (RN-09).
