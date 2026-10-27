@@ -255,9 +255,25 @@ a { color: inherit; }
   overflow: hidden;
 }
 
+/* Fotos en proporcion 3:2; sin foto, la silueta centrada sobre salvia ocupa el mismo espacio */
 .tarjeta-imagen {
   background: var(--salvia);
-  padding: 1.5rem 1.25rem 1rem;
+  aspect-ratio: 3 / 2;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.tarjeta-imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tarjeta-imagen-silueta img {
+  width: 82%;
+  height: auto;
+  object-fit: contain;
 }
 
 .tarjeta-cuerpo {
@@ -318,7 +334,19 @@ a { color: inherit; }
   align-items: start;
 }
 
-.ficha-imagen {
+.ficha-imagen { margin: 0; }
+
+.ficha-imagen img {
+  width: 100%;
+  border-radius: 4px;
+}
+
+.ficha-imagen figcaption {
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.ficha-imagen-silueta {
   background: var(--salvia);
   border-radius: 4px;
   padding: 3rem 2rem;

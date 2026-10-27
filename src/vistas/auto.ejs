@@ -2,7 +2,14 @@
     <article class="contenedor seccion">
       <p class="migas"><a class="enlace" href="/catalogo">Volver al catálogo</a></p>
       <div class="ficha">
-        <div class="ficha-imagen"><img src="/img/silueta-auto.svg" alt="" width="640" height="240"></div>
+<% if (auto.foto_ruta) { %>
+        <figure class="ficha-imagen">
+          <img src="<%= auto.foto_ruta %>" alt="Foto de referencia de un <%= auto.marca %> <%= auto.modelo %>" width="800" height="533">
+          <figcaption>Foto de referencia del modelo, no del auto en venta: <a href="<%= auto.foto_fuente %>"><%= auto.foto_autor %></a>, <%= auto.foto_licencia %>, recortada.</figcaption>
+        </figure>
+<% } else { %>
+        <figure class="ficha-imagen ficha-imagen-silueta"><img src="/img/silueta-auto.svg" alt="" width="640" height="240"></figure>
+<% } %>
         <div class="ficha-datos">
           <p class="condicion condicion-<%= auto.condicion %>"><%= ETIQUETAS.condicion[auto.condicion] %></p>
           <h1 class="ficha-titulo"><%= auto.marca %> <%= auto.modelo %></h1>

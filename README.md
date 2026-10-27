@@ -31,6 +31,11 @@ Los datos de prueba tienen 40 autos: 20 nuevos del inventario y 20 usados de los
 (16 Disponible, 3 En revisión y 1 Rechazada). El cliente 1 ya tiene 3 publicaciones activas, el
 máximo de la RN-07, y el cliente 5 tiene una rechazada.
 
+Cada auto tiene una foto real de referencia del modelo (no del auto exacto), tomada de Wikimedia
+Commons con licencia libre. La ficha muestra el autor, la licencia y el enlace a la foto original;
+la lista completa está en `docs/creditos-fotos.md`. Si una foto se cambia, hay que actualizar
+`src/bd/fotos-semilla.js` y ese documento.
+
 ## Comandos
 
 | Comando | Qué hace |

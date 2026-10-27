@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const datos = require('./datos-semilla');
+const { FOTOS } = require('./fotos-semilla');
 
 const COSTO_BCRYPT = 10; // RNF-04
 const ANIO_NUEVOS = 2026;
@@ -31,6 +32,8 @@ function sembrar(db) {
                        combustible, color, motor, descripcion, estado, vendedor_id, motivo_rechazo,
                        revisado_por, revisado_en, creado_en)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+  const insertarFoto = db.prepare(`
+    INSERT INTO fotos (auto_id, ruta, orden, autor, licencia, fuente) VALUES (?, ?, 1, ?, ?, ?)`);
 
   db.exec('BEGIN');
   try {
@@ -56,12 +59,18 @@ function sembrar(db) {
     autos.forEach((auto, i) => {
       const fecha = publicadoEn(i);
       const revisado = auto.condicion === 'usado' && auto.estado !== 'en_revision';
-      insertarAuto.run(
+      const idAuto = insertarAuto.run(
         `AU-${String(i + 1).padStart(4, '0')}`, auto.condicion, auto.marca, auto.modelo, auto.anio, auto.km,
         aCentavos(auto.precio), auto.transmision, auto.combustible, auto.color, auto.motor, auto.descripcion,
         auto.estado, auto.vendedor ? idClientes[auto.vendedor - 1] : null,
         auto.estado === 'rechazada' ? datos.MOTIVO_RECHAZO : null,
-        revisado ? idAdministrador : null, revisado ? fecha : null, fecha);
+        revisado ? idAdministrador : null, revisado ? fecha : null, fecha).lastInsertRowid;
+
+      const foto = FOTOS[`${auto.condicion}:${auto.modelo}`];
+      if (!foto) {
+        throw new Error(`Falta la foto de ${auto.condicion}:${auto.modelo} en fotos-semilla.js`);
+      }
+      insertarFoto.run(idAuto, foto.ruta, foto.autor, foto.licencia, foto.fuente);
     });
     db.exec('COMMIT');
   } catch (error) {

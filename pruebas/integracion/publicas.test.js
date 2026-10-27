@@ -45,6 +45,24 @@ describe('catálogo (RN-03 y RN-08)', () => {
     expect(res.text).toContain('Página 1 de 3');
   });
 
+  test('cada tarjeta muestra la foto de su auto', async () => {
+    const res = await request(contexto.app).get('/catalogo');
+    const fotos = [...res.text.matchAll(/<img src="(\/img\/autos\/[^"]+\.jpg)" alt="Foto de referencia de un ([^"]+)"/g)];
+    expect(fotos).toHaveLength(12);
+  });
+
+  test('un auto sin fotos muestra la silueta de respaldo', async () => {
+    const otro = crearContexto();
+    const id = otro.db.prepare("SELECT id FROM autos WHERE estado = 'disponible' ORDER BY creado_en DESC LIMIT 1").get().id;
+    otro.db.prepare('DELETE FROM fotos WHERE auto_id = ?').run(id);
+    const catalogo = await request(otro.app).get('/catalogo');
+    expect(catalogo.text).toMatch(new RegExp(`data-auto="${id}">\\s*<div class="tarjeta-imagen tarjeta-imagen-silueta"><img src="/img/silueta-auto.svg"`));
+    const ficha = await request(otro.app).get(`/autos/${id}`);
+    expect(ficha.text).toContain('src="/img/silueta-auto.svg"');
+    expect(ficha.text).not.toContain('Foto de referencia de un');
+    otro.db.close();
+  });
+
   test('ordena del más reciente al más antiguo', async () => {
     const res = await request(contexto.app).get('/catalogo');
     const masReciente = idDe("SELECT id FROM autos WHERE estado = 'disponible' ORDER BY creado_en DESC LIMIT 1");
@@ -90,6 +108,18 @@ describe('ficha de un auto', () => {
     expect(res.text).toContain('58,000 km');
     expect(res.text).toContain('B/. 27,500.00');
     expect(res.text).toContain('Usado');
+  });
+
+  test('muestra la foto de referencia con su autor, su licencia y el enlace a la fuente', async () => {
+    const auto = contexto.db.prepare(`
+      SELECT a.id, f.ruta, f.autor, f.licencia, f.fuente FROM autos a JOIN fotos f ON f.auto_id = a.id
+      WHERE a.modelo = 'A3 Sedán'`).get();
+    const res = await request(contexto.app).get(`/autos/${auto.id}`);
+    expect(res.text).toContain(`src="${auto.ruta}"`);
+    expect(res.text).toContain('alt="Foto de referencia de un Audi A3 Sedán"');
+    expect(res.text).toContain(auto.autor);
+    expect(res.text).toContain(auto.licencia);
+    expect(res.text).toContain(`href="${auto.fuente}"`);
   });
 
   test.each([

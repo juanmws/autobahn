@@ -1,3 +1,5 @@
+const fs = require('node:fs');
+const path = require('node:path');
 const bcrypt = require('bcryptjs');
 const { abrirBaseDeDatos } = require('../../src/bd/conexion');
 const { sembrar } = require('../../src/bd/semilla');
@@ -64,6 +66,22 @@ describe('datos de prueba', () => {
         AND precio_centavos BETWEEN 200000 AND 30000000
         AND length(descripcion) BETWEEN 20 AND 1000)`);
     expect(fuera).toBe(0);
+  });
+
+  test('cada auto tiene una foto principal con autor, licencia y fuente', () => {
+    const sinFoto = contar(`
+      SELECT COUNT(*) AS n FROM autos a WHERE NOT EXISTS (
+        SELECT 1 FROM fotos f WHERE f.auto_id = a.id AND f.orden = 1
+          AND f.autor <> '' AND f.licencia <> '' AND f.fuente LIKE 'https://commons.wikimedia.org/%')`);
+    expect(sinFoto).toBe(0);
+  });
+
+  test('el archivo de cada foto existe en publico/', () => {
+    const rutas = db.prepare('SELECT DISTINCT ruta FROM fotos').all().map((f) => f.ruta);
+    expect(rutas.length).toBeGreaterThanOrEqual(39);
+    for (const ruta of rutas) {
+      expect(fs.existsSync(path.join(__dirname, '..', '..', 'publico', ruta))).toBe(true);
+    }
   });
 
   test('las contraseñas se guardan con bcrypt de costo 10 (RNF-04)', () => {
