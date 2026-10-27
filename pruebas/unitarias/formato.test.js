@@ -1,4 +1,4 @@
-const { formatearPrecio, formatearKm, formatearFecha, ETIQUETAS } = require('../../src/formato');
+const { formatearPrecio, formatearKm, formatearFecha, formatearPorcentaje, ETIQUETAS } = require('../../src/formato');
 
 describe('formatearPrecio (RNF-09)', () => {
   test('muestra balboas con separador de miles y dos decimales', () => {
@@ -31,6 +31,12 @@ describe('formatearFecha (RNF-09)', () => {
 
   test('acepta un objeto Date y usa la fecha local', () => {
     expect(formatearFecha(new Date(2026, 0, 5, 23, 30))).toBe('05/01/2026');
+  });
+});
+
+describe('formatearPorcentaje', () => {
+  test.each([[10, '10 %'], [8.5, '8.5 %'], [20.004, '20 %'], [33.333, '33.3 %']])('%p se muestra como "%s"', (valor, texto) => {
+    expect(formatearPorcentaje(valor)).toBe(texto);
   });
 });
 

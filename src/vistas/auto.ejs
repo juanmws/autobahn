@@ -15,6 +15,7 @@
           <h1 class="ficha-titulo"><%= auto.marca %> <%= auto.modelo %></h1>
           <p class="ficha-anio"><%= auto.anio %></p>
           <p class="precio precio-grande"><%= formatearPrecio(auto.precio_centavos) %></p>
+          <p class="ficha-acciones"><a class="boton" href="/autos/<%= auto.id %>/financiamiento">Calcular financiamiento</a></p>
           <dl class="especificaciones">
             <div><dt>Kilometraje</dt><dd><%= formatearKm(auto.kilometraje) %></dd></div>
             <div><dt>Transmisión</dt><dd><%= ETIQUETAS.transmision[auto.transmision] %></dd></div>

@@ -137,6 +137,7 @@ a { color: inherit; }
   display: inline-block;
   background: var(--cafe);
   color: var(--crema);
+  font: inherit; /* los <button> no heredan la tipografia por defecto */
   font-weight: 600;
   text-decoration: none;
   border: 2px solid var(--cafe);
@@ -414,6 +415,42 @@ a { color: inherit; }
   .pie-interior { grid-template-columns: auto 1fr; }
 }
 
+/* Calculadora de financiamiento (RF-04) */
+
+.ficha-acciones { margin-bottom: 1.5rem; }
+
+.calculadora {
+  display: grid;
+  gap: 2rem;
+  align-items: start;
+  margin-bottom: 2rem;
+}
+
+.calculadora-auto img { border-radius: 4px; margin-bottom: 0.75rem; }
+
+.calculadora-titulo {
+  font-family: var(--fuente-titulos);
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 0.15rem;
+}
+
+.parametros {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.parametros li { border-top: 1px solid var(--linea); padding: 0.45rem 0; }
+
+.resultado {
+  border-top: 3px solid var(--cafe);
+  padding-top: 1.5rem;
+}
+
+@media (min-width: 860px) {
+  .calculadora { grid-template-columns: 1fr 1fr; }
+}
+
 /* Formularios */
 
 .formulario {
@@ -425,13 +462,25 @@ a { color: inherit; }
 .campo { display: grid; gap: 0.3rem; }
 .campo label { font-weight: 600; }
 
-.campo input {
+.campo input, .campo select {
   font: inherit;
   color: var(--cafe);
   background: #FFFFFF;
   border: 1px solid var(--cafe);
   border-radius: 6px;
   padding: 0.55rem 0.7rem;
+}
+
+.campo [aria-invalid="true"] { border-width: 2px; }
+
+.campo-ayuda { margin: 0; min-height: 1.55em; }
+
+/* RNF-02: el error va junto al campo que lo causa */
+.campo-error {
+  margin: 0;
+  font-weight: 600;
+  border-left: 4px solid var(--cafe);
+  padding-left: 0.6rem;
 }
 
 .mensaje-error {
