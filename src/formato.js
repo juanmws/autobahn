@@ -23,6 +23,12 @@ function formatearFecha(valor) {
   return `${dia}/${mes}/${anio}`;
 }
 
+// Un decimal como maximo: 10 %, 8.5 %
+function formatearPorcentaje(valor) {
+  const redondeado = Math.round(valor * 10) / 10;
+  return `${Number.isInteger(redondeado) ? redondeado : redondeado.toFixed(1)} %`;
+}
+
 // Textos que se muestran para los valores que se guardan en la base de datos
 const ETIQUETAS = {
   condicion: { nuevo: 'Nuevo', usado: 'Usado' },
@@ -31,4 +37,4 @@ const ETIQUETAS = {
   estado: { en_revision: 'En revisión', disponible: 'Disponible', rechazada: 'Rechazada' },
 };
 
-module.exports = { formatearPrecio, formatearKm, formatearFecha, ETIQUETAS };
+module.exports = { formatearPrecio, formatearKm, formatearFecha, formatearPorcentaje, ETIQUETAS };
