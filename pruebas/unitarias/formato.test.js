@@ -1,4 +1,6 @@
-const { formatearPrecio, formatearKm, formatearFecha, formatearPorcentaje, ETIQUETAS } = require('../../src/formato');
+const {
+  formatearPrecio, formatearKm, formatearFecha, formatearPorcentaje, formatearDia, formatearBloque, ETIQUETAS,
+} = require('../../src/formato');
 
 describe('formatearPrecio (RNF-09)', () => {
   test('muestra balboas con separador de miles y dos decimales', () => {
@@ -37,6 +39,17 @@ describe('formatearFecha (RNF-09)', () => {
 describe('formatearPorcentaje', () => {
   test.each([[10, '10 %'], [8.5, '8.5 %'], [20.004, '20 %'], [33.333, '33.3 %']])('%p se muestra como "%s"', (valor, texto) => {
     expect(formatearPorcentaje(valor)).toBe(texto);
+  });
+});
+
+describe('formatearDia y formatearBloque (RNF-09)', () => {
+  test.each([['2026-10-21', 'miércoles 21/10/2026'], ['2026-10-24', 'sábado 24/10/2026'], ['2026-10-26', 'lunes 26/10/2026']])(
+    '%s es "%s"', (fecha, texto) => {
+      expect(formatearDia(fecha)).toBe(texto);
+    });
+
+  test.each([[9, '9:00 a 10:00'], [16, '16:00 a 17:00']])('el bloque de las %i es "%s"', (hora, texto) => {
+    expect(formatearBloque(hora)).toBe(texto);
   });
 });
 

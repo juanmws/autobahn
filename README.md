@@ -98,7 +98,7 @@ pruebas, en el orden de prioridad del plan de pruebas (Tabla 4 del E1):
 | Orden | Funcionalidad | Estado |
 |:--|:--|:--|
 | 1 | RF-04. Calcular el financiamiento de un auto | Lista: `/autos/:id/financiamiento`, regla en `src/reglas/financiamiento.js` |
-| 2 | RF-07. Agendar una prueba de manejo | Pendiente |
+| 2 | RF-07. Agendar una prueba de manejo | Lista: `/autos/:id/prueba-de-manejo`, regla en `src/reglas/citas.js`, Mis citas en Mi cuenta |
 | 3 | RF-05. Publicar un auto usado | Pendiente |
 | 4 | RF-01. Registrar una cuenta de cliente | Pendiente |
 | 5 | RF-06. Revisar una publicación de auto usado | Pendiente |

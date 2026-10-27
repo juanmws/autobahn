@@ -3,6 +3,29 @@
       <h1>Mi cuenta</h1>
       <p><%= usuario.nombre %> <%= usuario.apellido %>, <%= usuario.correo %></p>
 
+      <h2>Mis citas</h2>
+<% if (citas.length === 0) { %>
+      <p class="vacio">No tienes pruebas de manejo programadas. Puedes agendar una desde la ficha de cualquier auto.</p>
+<% } else { %>
+      <div class="envoltura-tabla">
+        <table class="tabla">
+          <thead>
+            <tr><th scope="col">Código</th><th scope="col">Auto</th><th scope="col">Día</th><th scope="col">Hora</th></tr>
+          </thead>
+          <tbody>
+<% citas.forEach((c) => { %>
+            <tr>
+              <td><a class="enlace" href="/citas/<%= c.codigo %>"><%= c.codigo %></a></td>
+              <td><%= c.marca %> <%= c.modelo %> <%= c.anio %></td>
+              <td><%= formatearDia(c.fecha) %></td>
+              <td><%= formatearBloque(c.hora) %></td>
+            </tr>
+<% }) %>
+          </tbody>
+        </table>
+      </div>
+<% } %>
+
       <h2>Mis publicaciones</h2>
       <p>Tienes <%= activas %> <%= activas === 1 ? 'publicación activa' : 'publicaciones activas' %> de <%= limite %> permitidas.</p>
 <% if (publicaciones.length === 0) { %>

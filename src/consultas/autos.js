@@ -10,7 +10,7 @@ const MAS_RECIENTES = 'ORDER BY creado_en DESC, id DESC';
 // Auto con su foto principal (orden 1); las columnas foto_* quedan en null si no tiene fotos
 const AUTO_CON_FOTO = `
   SELECT a.id, a.codigo, a.condicion, a.marca, a.modelo, a.anio, a.kilometraje, a.precio_centavos,
-         a.transmision, a.combustible, a.color, a.motor, a.descripcion, a.estado, a.creado_en,
+         a.transmision, a.combustible, a.color, a.motor, a.descripcion, a.estado, a.creado_en, a.vendedor_id,
          f.ruta AS foto_ruta, f.autor AS foto_autor, f.licencia AS foto_licencia, f.fuente AS foto_fuente
   FROM autos a LEFT JOIN fotos f ON f.auto_id = a.id AND f.orden = 1`;
 const DISPONIBLES_MAS_RECIENTES = "WHERE a.estado = 'disponible' ORDER BY a.creado_en DESC, a.id DESC";
