@@ -31,6 +31,7 @@ module.exports = defineConfig({
       AUTOBAHN_BD: ':memory:',
       AUTOBAHN_FECHA: '2026-10-20T10:00:00',
       SESION_SECRETO: 'secreto-de-las-pruebas-de-sistema',
+      AUTOBAHN_SUBIDAS: 'test-results/subidas',
     },
   },
 });

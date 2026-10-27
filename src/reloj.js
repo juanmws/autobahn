@@ -24,4 +24,11 @@ function crearReloj(fechaFija) {
   };
 }
 
-module.exports = { crearReloj };
+// Fecha y hora local como se guardan en la base de datos: AAAA-MM-DDTHH:MM:SS
+function marcaDeTiempo(fecha) {
+  const dos = (n) => String(n).padStart(2, '0');
+  return `${fecha.getFullYear()}-${dos(fecha.getMonth() + 1)}-${dos(fecha.getDate())}`
+    + `T${dos(fecha.getHours())}:${dos(fecha.getMinutes())}:${dos(fecha.getSeconds())}`;
+}
+
+module.exports = { crearReloj, marcaDeTiempo };

@@ -1,0 +1,19 @@
+<%- include('parciales/cabecera') %>
+    <section class="contenedor seccion aviso">
+      <h1>Publicación enviada</h1>
+      <p class="mensaje-exito" role="status">Tu auto fue enviado a revisión. Llévalo al local de Autobahn en la Vía Ricardo J. Alfaro para su inspección.</p>
+      <p class="codigo-cita">Código de la publicación: <strong><%= publicacion.codigo %></strong></p>
+      <dl class="especificaciones">
+        <div><dt>Auto</dt><dd><%= publicacion.marca %> <%= publicacion.modelo %> <%= publicacion.anio %></dd></div>
+        <div><dt>Precio</dt><dd><%= formatearPrecio(publicacion.precio_centavos) %></dd></div>
+        <div><dt>Estado</dt><dd><%= ETIQUETAS.estado[publicacion.estado] %></dd></div>
+      </dl>
+      <div class="miniaturas">
+<% publicacion.fotos.forEach((ruta, i) => { %>
+        <img src="<%= ruta %>" alt="Foto <%= i + 1 %> de tu <%= publicacion.marca %> <%= publicacion.modelo %>" width="160" height="107">
+<% }) %>
+      </div>
+      <p>Te avisaremos el resultado de la revisión en Mi cuenta.</p>
+      <a class="boton" href="/mi-cuenta">Ver mis publicaciones</a>
+    </section>
+<%- include('parciales/pie') %>

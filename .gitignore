@@ -1,6 +1,7 @@
 node_modules/
 datos/*.db
 datos/*.db-*
+datos/subidas/
 coverage/
 test-results/
 playwright-report/

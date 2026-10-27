@@ -19,6 +19,9 @@
       <nav aria-label="Menú principal">
         <ul class="menu">
           <li><a href="/catalogo"<%- rutaActual.startsWith('/catalogo') ? ' aria-current="page"' : '' %>>Catálogo</a></li>
+<% if (!usuario || usuario.rol === 'cliente') { %>
+          <li><a href="/vender"<%- rutaActual === '/vender' ? ' aria-current="page"' : '' %>>Vender mi auto</a></li>
+<% } %>
 <% if (usuario && usuario.rol === 'administrador') { %>
           <li><a href="/admin"<%- rutaActual === '/admin' ? ' aria-current="page"' : '' %>>Panel</a></li>
 <% } else if (usuario) { %>

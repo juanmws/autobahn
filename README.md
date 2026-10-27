@@ -45,7 +45,7 @@ la lista completa está en `docs/creditos-fotos.md`. Si una foto se cambia, hay 
 | `npm run test:cobertura` | Lo mismo, con el reporte de cobertura en `coverage/` |
 | `npm run test:sistema` | Pruebas de sistema en el navegador (Playwright): Chromium, Firefox, WebKit y celular |
 | `npm run test:sistema:sin-firefox` | Las mismas, sin Firefox (ver nota) |
-| `npm run bd:reiniciar` | Borra la base local y la crea de nuevo con los datos de prueba |
+| `npm run bd:reiniciar` | Borra la base local y las fotos que subieron los clientes, y crea la base de nuevo con los datos de prueba |
 
 La primera vez que se usan las pruebas de sistema hay que descargar los navegadores:
 `npx playwright install`.
@@ -62,6 +62,7 @@ corren en Ubuntu, donde Firefox funciona. En una Mac con macOS 27 se usa `test:s
 | `AUTOBAHN_BD` | Archivo de la base de datos; `:memory:` para una base temporal | `datos/autobahn.db` |
 | `AUTOBAHN_FECHA` | Fecha fija del sistema, `AAAA-MM-DDTHH:MM:SS` | la fecha real |
 | `SESION_SECRETO` | Secreto de las cookies de sesión | uno nuevo en cada arranque |
+| `AUTOBAHN_SUBIDAS` | Carpeta de las fotos que suben los clientes (fuera de git) | `datos/subidas` |
 
 Las pruebas fijan la fecha en el 20/10/2026 a las 10:00, porque las citas y el año de los autos
 dependen del día.
@@ -99,7 +100,7 @@ pruebas, en el orden de prioridad del plan de pruebas (Tabla 4 del E1):
 |:--|:--|:--|
 | 1 | RF-04. Calcular el financiamiento de un auto | Lista: `/autos/:id/financiamiento`, regla en `src/reglas/financiamiento.js` |
 | 2 | RF-07. Agendar una prueba de manejo | Lista: `/autos/:id/prueba-de-manejo`, regla en `src/reglas/citas.js`, Mis citas en Mi cuenta |
-| 3 | RF-05. Publicar un auto usado | Pendiente |
+| 3 | RF-05. Publicar un auto usado | Lista: `/vender`, reglas en `src/reglas/publicacion.js`; queda En revisión hasta el RF-06 |
 | 4 | RF-01. Registrar una cuenta de cliente | Pendiente |
 | 5 | RF-06. Revisar una publicación de auto usado | Pendiente |
 | 6 | RF-08. Hacer una oferta por un auto usado | Pendiente |

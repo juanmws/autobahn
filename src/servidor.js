@@ -3,6 +3,7 @@
 //   AUTOBAHN_BD     archivo de la base de datos (datos/autobahn.db; ":memory:" para una base temporal)
 //   AUTOBAHN_FECHA  fecha fija del sistema, AAAA-MM-DDTHH:MM:SS (para pruebas)
 //   SESION_SECRETO  secreto de las cookies de sesion (si falta, se genera uno al arrancar)
+//   AUTOBAHN_SUBIDAS carpeta de las fotos que suben los clientes (datos/subidas)
 const crypto = require('node:crypto');
 const path = require('node:path');
 const { abrirBaseDeDatos } = require('./bd/conexion');
@@ -21,6 +22,7 @@ const app = crearApp({
   db,
   reloj: crearReloj(process.env.AUTOBAHN_FECHA),
   secretoSesion: process.env.SESION_SECRETO || crypto.randomBytes(32).toString('hex'),
+  ...(process.env.AUTOBAHN_SUBIDAS ? { carpetaSubidas: path.resolve(process.env.AUTOBAHN_SUBIDAS) } : {}),
 });
 
 const puerto = Number(process.env.PORT) || 3000;

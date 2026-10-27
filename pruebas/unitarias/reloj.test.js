@@ -1,4 +1,4 @@
-const { crearReloj } = require('../../src/reloj');
+const { crearReloj, marcaDeTiempo } = require('../../src/reloj');
 
 describe('crearReloj', () => {
   test('con una fecha fija devuelve siempre esa fecha', () => {
@@ -28,5 +28,11 @@ describe('crearReloj', () => {
 
   test('rechaza una fecha fija inválida', () => {
     expect(() => crearReloj('20/10/2026')).toThrow('Fecha fija inválida');
+  });
+});
+
+describe('marcaDeTiempo', () => {
+  test('da la fecha y la hora local en el formato que guarda la base de datos', () => {
+    expect(marcaDeTiempo(new Date(2026, 9, 20, 9, 5, 7))).toBe('2026-10-20T09:05:07');
   });
 });
