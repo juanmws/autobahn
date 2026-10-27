@@ -1,0 +1,14 @@
+<%- include('parciales/cabecera') %>
+    <section class="contenedor seccion aviso">
+      <h1>Tu prueba de manejo quedó programada</h1>
+      <p class="codigo-cita">Código de confirmación: <strong><%= cita.codigo %></strong></p>
+      <dl class="especificaciones">
+        <div><dt>Auto</dt><dd><%= cita.marca %> <%= cita.modelo %> <%= cita.anio %></dd></div>
+        <div><dt>Día</dt><dd><%= formatearDia(cita.fecha) %></dd></div>
+        <div><dt>Hora</dt><dd><%= formatearBloque(cita.hora) %></dd></div>
+        <div><dt>Lugar</dt><dd><%= ubicacion %></dd></div>
+      </dl>
+      <p>Lleva tu licencia de conducir y tu código. Si necesitas cambiar la cita, comunícate con el local.</p>
+      <a class="boton" href="/mi-cuenta">Ver mis citas</a>
+    </section>
+<%- include('parciales/pie') %>

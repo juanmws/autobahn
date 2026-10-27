@@ -1,0 +1,63 @@
+<%- include('parciales/cabecera') %>
+<% const base = `/autos/${auto.id}/prueba-de-manejo`; %>
+    <section class="contenedor seccion">
+      <p class="migas"><a class="enlace" href="/autos/<%= auto.id %>">Volver a la ficha del <%= auto.marca %> <%= auto.modelo %></a></p>
+      <h1>Agendar una prueba de manejo</h1>
+      <p class="resumen"><%= auto.marca %> <%= auto.modelo %> <%= auto.anio %>, en nuestro local de la Vía Ricardo J. Alfaro. Atendemos de lunes a sábado, de 9:00 a 17:00.</p>
+<% if (mensaje) { %>
+      <p class="mensaje-error" role="alert"><%= mensaje %></p>
+<% } %>
+
+<% if (seleccion) { %>
+      <div class="resumen-cita">
+        <h2>Revisa tu cita</h2>
+        <dl class="especificaciones">
+          <div><dt>Auto</dt><dd><%= auto.marca %> <%= auto.modelo %> <%= auto.anio %></dd></div>
+          <div><dt>Día</dt><dd><%= formatearDia(seleccion.fecha) %></dd></div>
+          <div><dt>Hora</dt><dd><%= formatearBloque(seleccion.hora) %></dd></div>
+          <div><dt>Lugar</dt><dd><%= ubicacion %></dd></div>
+        </dl>
+        <form class="acciones-cita" method="post" action="<%= base %>">
+          <input type="hidden" name="fecha" value="<%= seleccion.fecha %>">
+          <input type="hidden" name="hora" value="<%= seleccion.hora %>">
+          <input type="hidden" name="licencia" value="<%= seleccion.vencimientoLicencia %>">
+          <button class="boton" type="submit">Confirmar cita</button>
+          <a class="enlace" href="<%= base %>?fecha=<%= seleccion.fecha %>">Cambiar el día o la hora</a>
+        </form>
+      </div>
+<% } else if (dias.length > 0) { %>
+      <h2>1. Elige el día</h2>
+      <ul class="dias">
+<% dias.forEach((dia) => { %>
+        <li><a class="dia" href="<%= base %>?fecha=<%= dia %>"<%- dia === fecha ? ' aria-current="date"' : '' %>><%= formatearDia(dia) %></a></li>
+<% }) %>
+      </ul>
+<% if (errores.fecha) { %>
+      <p class="campo-error"><%= errores.fecha %></p>
+<% } %>
+
+<% if (bloques) { %>
+      <form class="formulario formulario-cita" method="get" action="<%= base %>">
+        <input type="hidden" name="fecha" value="<%= fecha %>">
+        <fieldset class="bloques"<%- errores.hora ? ' aria-describedby="error-hora"' : '' %>>
+          <legend>2. Elige la hora del <%= formatearDia(fecha) %></legend>
+<% bloques.forEach((bloque) => { %>
+          <label class="bloque"><input type="radio" name="hora" value="<%= bloque.hora %>"<%- bloque.ocupado ? ' disabled' : '' %><%- !bloque.ocupado && String(bloque.hora) === hora ? ' checked' : '' %> required> <%= formatearBloque(bloque.hora) %><% if (bloque.ocupado) { %> <span class="bloque-ocupado">Ocupado</span><% } %></label>
+<% }) %>
+        </fieldset>
+<% if (errores.hora) { %>
+        <p class="campo-error" id="error-hora"><%= errores.hora %></p>
+<% } %>
+        <div class="campo">
+          <label for="licencia">3. Fecha de vencimiento de tu licencia de conducir</label>
+          <input id="licencia" name="licencia" type="date" required value="<%= licencia %>"<%- errores.licencia ? ' aria-invalid="true" aria-describedby="error-licencia"' : '' %>>
+<% if (errores.licencia) { %>
+          <p class="campo-error" id="error-licencia"><%= errores.licencia %></p>
+<% } %>
+        </div>
+        <div><button class="boton" type="submit">Ver resumen</button></div>
+      </form>
+<% } %>
+<% } %>
+    </section>
+<%- include('parciales/pie') %>

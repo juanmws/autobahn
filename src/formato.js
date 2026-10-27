@@ -29,6 +29,19 @@ function formatearPorcentaje(valor) {
   return `${Number.isInteger(redondeado) ? redondeado : redondeado.toFixed(1)} %`;
 }
 
+const DIAS_DE_LA_SEMANA = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+
+// "2026-10-22" -> "jueves 22/10/2026"
+function formatearDia(fechaIso) {
+  const [anio, mes, dia] = fechaIso.split('-').map(Number);
+  return `${DIAS_DE_LA_SEMANA[new Date(anio, mes - 1, dia).getDay()]} ${formatearFecha(fechaIso)}`;
+}
+
+// Bloque de una hora en formato de 24 horas: 11 -> "11:00 a 12:00"
+function formatearBloque(hora) {
+  return `${hora}:00 a ${hora + 1}:00`;
+}
+
 // Textos que se muestran para los valores que se guardan en la base de datos
 const ETIQUETAS = {
   condicion: { nuevo: 'Nuevo', usado: 'Usado' },
@@ -37,4 +50,6 @@ const ETIQUETAS = {
   estado: { en_revision: 'En revisión', disponible: 'Disponible', rechazada: 'Rechazada' },
 };
 
-module.exports = { formatearPrecio, formatearKm, formatearFecha, formatearPorcentaje, ETIQUETAS };
+module.exports = {
+  formatearPrecio, formatearKm, formatearFecha, formatearPorcentaje, formatearDia, formatearBloque, ETIQUETAS,
+};
