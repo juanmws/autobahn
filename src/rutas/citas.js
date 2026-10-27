@@ -4,17 +4,13 @@ const express = require('express');
 const { requiereRol } = require('../middleware/autenticacion');
 const { buscarDisponible } = require('../consultas/autos');
 const { horasOcupadas, citasProgramadasDe, buscarCitaDe, crearCita } = require('../consultas/citas');
-const { BLOQUES, MENSAJES, fechaIso, diasHabilitados, validarSeleccion, validarCita } = require('../reglas/citas');
+const { BLOQUES, MENSAJES, diasHabilitados, validarSeleccion, validarCita } = require('../reglas/citas');
+const { marcaDeTiempo } = require('../reloj');
 
 const UBICACION = 'Local de Autobahn, Vía Ricardo J. Alfaro, al lado de la Universidad Tecnológica de Panamá';
 
 // FA-1 y FA-2 piden otro bloque; FE-1 y FE-2 terminan el caso de uso sin guardar
 const ESTADO_POR_MOTIVO = { ocupado: 409, mismo_bloque: 409, limite: 409, licencia: 422 };
-
-function marcaDeTiempo(fecha) {
-  const dos = (n) => String(n).padStart(2, '0');
-  return `${fechaIso(fecha)}T${dos(fecha.getHours())}:${dos(fecha.getMinutes())}:${dos(fecha.getSeconds())}`;
-}
 
 function rutasCitas({ db, reloj }) {
   const router = express.Router();

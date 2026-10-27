@@ -7,12 +7,16 @@ const { rutasPublicas } = require('./rutas/publicas');
 const { rutasSesion } = require('./rutas/sesion');
 const { rutasCuenta } = require('./rutas/cuenta');
 const { rutasCitas } = require('./rutas/citas');
+const { rutasPublicar } = require('./rutas/publicar');
 
 const TREINTA_MINUTOS = 30 * 60 * 1000; // RNF-04: la sesion se cierra tras 30 minutos de inactividad
 
-// Crea la aplicacion con sus dependencias inyectadas: la base de datos, el reloj y el registro de
-// errores. Asi las pruebas usan una base en memoria, una fecha fija y un registro silencioso.
-function crearApp({ db, reloj, secretoSesion, registrarError = console.error }) {
+const SUBIDAS_POR_DEFECTO = path.join(__dirname, '..', 'datos', 'subidas');
+
+// Crea la aplicacion con sus dependencias inyectadas: la base de datos, el reloj, el registro de
+// errores y la carpeta de las fotos que suben los clientes. Asi las pruebas usan una base en memoria,
+// una fecha fija, un registro silencioso y una carpeta temporal.
+function crearApp({ db, reloj, secretoSesion, registrarError = console.error, carpetaSubidas = SUBIDAS_POR_DEFECTO }) {
   const app = express();
   app.disable('x-powered-by');
   app.set('views', path.join(__dirname, 'vistas'));
@@ -20,6 +24,7 @@ function crearApp({ db, reloj, secretoSesion, registrarError = console.error }) 
   Object.assign(app.locals, formato);
 
   app.use(express.static(path.join(__dirname, '..', 'publico')));
+  app.use('/subidas', express.static(carpetaSubidas));
   app.use('/fuentes', express.static(path.join(__dirname, '..', 'node_modules', '@fontsource')));
   app.use(express.urlencoded({ extended: false }));
 
@@ -43,6 +48,7 @@ function crearApp({ db, reloj, secretoSesion, registrarError = console.error }) 
   app.use(rutasSesion({ db }));
   app.use(rutasCuenta({ db }));
   app.use(rutasCitas({ db, reloj }));
+  app.use(rutasPublicar({ db, reloj, carpetaSubidas }));
 
   app.use((req, res) => {
     res.status(404).render('no-encontrado', { titulo: 'Página no encontrada' });

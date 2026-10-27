@@ -1,0 +1,108 @@
+<%- include('parciales/cabecera') %>
+<%
+  // atributos de accesibilidad de un campo: marca el error y lo enlaza con su mensaje (RNF-02)
+  const conError = (campo) => errores[campo] ? ` aria-invalid="true" aria-describedby="error-${campo}"` : '';
+%>
+    <section class="contenedor seccion">
+      <h1>Vender mi auto</h1>
+<% if (limiteAlcanzado) { %>
+      <p class="mensaje-error" role="alert"><%= mensajeLimite %></p>
+      <p>Cuando una de tus publicaciones se revise o se venda, podrás publicar otro auto. Puedes ver su estado en <a class="enlace" href="/mi-cuenta">Mi cuenta</a>.</p>
+<% } else { %>
+      <p class="resumen">Publica tu auto usado. Antes de aparecer en el catálogo, lo revisamos en nuestro local de la Vía Ricardo J. Alfaro.</p>
+<% if (Object.keys(errores).length > 0) { %>
+      <p class="mensaje-error" role="alert">Revisa los campos marcados.</p>
+<% } %>
+      <form class="formulario formulario-publicar" method="post" action="/vender" enctype="multipart/form-data" novalidate>
+        <div class="campo">
+          <label for="marca">Marca</label>
+          <select id="marca" name="marca" required<%- conError('marca') %>>
+            <option value="">Elige la marca</option>
+<% marcas.forEach((marca) => { %>
+            <option value="<%= marca %>"<%- valores.marca === marca ? ' selected' : '' %>><%= marca %></option>
+<% }) %>
+          </select>
+<% if (errores.marca) { %><p class="campo-error" id="error-marca"><%= errores.marca %></p><% } %>
+        </div>
+
+        <div class="campo">
+          <label for="modelo">Modelo</label>
+          <input id="modelo" name="modelo" maxlength="60" required value="<%= valores.modelo %>"<%- conError('modelo') %>>
+<% if (errores.modelo) { %><p class="campo-error" id="error-modelo"><%= errores.modelo %></p><% } %>
+        </div>
+
+        <div class="campo">
+          <label for="anio">Año</label>
+          <input id="anio" name="anio" type="number" min="<%= rangoAnio.minimo %>" max="<%= rangoAnio.maximo %>" required value="<%= valores.anio %>"<%- conError('anio') %>>
+<% if (errores.anio) { %><p class="campo-error" id="error-anio"><%= errores.anio %></p><% } %>
+        </div>
+
+        <div class="campo">
+          <label for="kilometraje">Kilometraje (km)</label>
+          <input id="kilometraje" name="kilometraje" inputmode="numeric" required value="<%= valores.kilometraje %>"<%- conError('kilometraje') %>>
+<% if (errores.kilometraje) { %><p class="campo-error" id="error-kilometraje"><%= errores.kilometraje %></p><% } %>
+        </div>
+
+        <div class="campo">
+          <label for="color">Color</label>
+          <input id="color" name="color" maxlength="40" required value="<%= valores.color %>"<%- conError('color') %>>
+<% if (errores.color) { %><p class="campo-error" id="error-color"><%= errores.color %></p><% } %>
+        </div>
+
+        <div class="campo">
+          <label for="precio">Precio (B/.)</label>
+          <input id="precio" name="precio" inputmode="decimal" required value="<%= valores.precio %>"<%- conError('precio') %>>
+<% if (errores.precio) { %><p class="campo-error" id="error-precio"><%= errores.precio %></p><% } %>
+        </div>
+
+        <div class="campo">
+          <label for="transmision">Transmisión</label>
+          <select id="transmision" name="transmision" required<%- conError('transmision') %>>
+            <option value="">Elige la transmisión</option>
+<% transmisiones.forEach((valor) => { %>
+            <option value="<%= valor %>"<%- valores.transmision === valor ? ' selected' : '' %>><%= ETIQUETAS.transmision[valor] %></option>
+<% }) %>
+          </select>
+<% if (errores.transmision) { %><p class="campo-error" id="error-transmision"><%= errores.transmision %></p><% } %>
+        </div>
+
+        <div class="campo">
+          <label for="combustible">Combustible</label>
+          <select id="combustible" name="combustible" required<%- conError('combustible') %>>
+            <option value="">Elige el combustible</option>
+<% combustibles.forEach((valor) => { %>
+            <option value="<%= valor %>"<%- valores.combustible === valor ? ' selected' : '' %>><%= ETIQUETAS.combustible[valor] %></option>
+<% }) %>
+          </select>
+<% if (errores.combustible) { %><p class="campo-error" id="error-combustible"><%= errores.combustible %></p><% } %>
+        </div>
+
+        <div class="campo">
+          <label for="motor">Motor (opcional)</label>
+          <input id="motor" name="motor" maxlength="60" value="<%= valores.motor %>"<%- conError('motor') %>>
+<% if (errores.motor) { %><p class="campo-error" id="error-motor"><%= errores.motor %></p><% } %>
+        </div>
+
+        <div class="campo campo-ancho">
+          <label for="descripcion">Descripción</label>
+          <textarea id="descripcion" name="descripcion" rows="5" maxlength="1000" required<%- conError('descripcion') %>><%= valores.descripcion %></textarea>
+          <p class="campo-ayuda" id="contador-descripcion" aria-live="polite"><%= valores.descripcion.trim().length %> de 1,000 caracteres (mínimo 20)</p>
+<% if (errores.descripcion) { %><p class="campo-error" id="error-descripcion"><%= errores.descripcion %></p><% } %>
+        </div>
+
+        <div class="campo campo-ancho">
+          <label for="fotos">Fotos (de 1 a 8, JPG o PNG, hasta 5 MB cada una)</label>
+<% if (Object.keys(errores).length > 0) { %>
+          <p class="campo-ayuda">Vuelve a adjuntar las fotos antes de enviar: el navegador no las conserva al mostrar los errores.</p>
+<% } %>
+          <input id="fotos" type="file" name="fotos" accept="image/jpeg,image/png" multiple required<%- conError('fotos') %>>
+          <div class="miniaturas" id="miniaturas"></div>
+<% if (errores.fotos) { %><p class="campo-error" id="error-fotos"><%= errores.fotos %></p><% } %>
+        </div>
+
+        <div class="campo-ancho"><button class="boton" type="submit">Enviar a revisión</button></div>
+      </form>
+      <script src="/js/vender.js" defer></script>
+<% } %>
+    </section>
+<%- include('parciales/pie') %>
