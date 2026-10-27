@@ -10,6 +10,9 @@ on:
 jobs:
   pruebas:
     runs-on: ubuntu-latest
+    # normalmente tarda unos 3 minutos; el espejo de Ubuntu a veces descarga muy lento las
+    # dependencias de los navegadores, y sin limite GitHub esperaria hasta 6 horas
+    timeout-minutes: 30
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     steps:

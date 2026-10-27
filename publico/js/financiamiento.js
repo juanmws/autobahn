@@ -7,7 +7,7 @@ if (formulario) {
   const abono = formulario.querySelector('#abono');
   const ayuda = formulario.querySelector('#porcentaje-abono');
 
-  abono.addEventListener('input', () => {
+  const mostrarPorcentaje = () => {
     const limpio = abono.value.trim().replace(/^B\/\.\s*/, '').replaceAll(',', '');
     const balboas = Number(limpio);
     if (limpio === '' || !Number.isFinite(balboas) || balboas < 0) {
@@ -16,5 +16,9 @@ if (formulario) {
     }
     const porcentaje = Math.round(((balboas * 100 * 100) / precioCentavos) * 10) / 10;
     ayuda.textContent = `${Number.isInteger(porcentaje) ? porcentaje : porcentaje.toFixed(1)} % del precio`;
-  });
+  };
+
+  abono.addEventListener('input', mostrarPorcentaje);
+  // el abono pudo escribirse antes de que este script terminara de cargar
+  mostrarPorcentaje();
 }

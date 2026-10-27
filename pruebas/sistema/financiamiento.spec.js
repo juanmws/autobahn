@@ -19,6 +19,17 @@ test('calcular la cuota de un auto usado desde su ficha', async ({ page }) => {
   await expect(page.getByText('Cálculo referencial; no constituye una aprobación de crédito')).toBeVisible();
 });
 
+test('muestra el porcentaje aunque el abono se escriba antes de que cargue el script', async ({ page }) => {
+  // reproduce la carrera vista en Firefox en CI: el script llega tarde y el abono ya está escrito
+  await page.route('**/js/financiamiento.js', async (ruta) => {
+    await new Promise((listo) => setTimeout(listo, 800));
+    await ruta.continue();
+  });
+  await page.goto('/autos/2/financiamiento', { waitUntil: 'commit' });
+  await page.getByLabel('Abono (B/.)').fill('5500');
+  await expect(page.locator('#porcentaje-abono')).toHaveText('20 % del precio');
+});
+
 test('un abono menor que el mínimo muestra el error junto al campo (FA-1)', async ({ page }) => {
   await page.goto('/autos/2/financiamiento?abono=100&plazo=60');
   await expect(page.locator('#error-abono')).toHaveText('El abono mínimo para este auto es de B/. 5,500.00 (20 % del precio)');
