@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= titulo %> | Autobahn</title>
+  <link rel="icon" href="/img/icono.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/fuentes/barlow/400.css">
+  <link rel="stylesheet" href="/fuentes/barlow/600.css">
+  <link rel="stylesheet" href="/fuentes/barlow-semi-condensed/600.css">
+  <link rel="stylesheet" href="/fuentes/barlow-semi-condensed/700.css">
+  <link rel="stylesheet" href="/css/estilos.css">
+</head>
+<body>
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+  <header class="cabecera">
+    <div class="contenedor cabecera-interior">
+      <a class="logotipo" href="/" aria-label="Autobahn, página de inicio">Autobahn</a>
+      <nav aria-label="Menú principal">
+        <ul class="menu">
+          <li><a href="/catalogo"<%- rutaActual.startsWith('/catalogo') ? ' aria-current="page"' : '' %>>Catálogo</a></li>
+<% if (usuario && usuario.rol === 'administrador') { %>
+          <li><a href="/admin"<%- rutaActual === '/admin' ? ' aria-current="page"' : '' %>>Panel</a></li>
+<% } else if (usuario) { %>
+          <li><a href="/mi-cuenta"<%- rutaActual === '/mi-cuenta' ? ' aria-current="page"' : '' %>>Mi cuenta</a></li>
+<% } %>
+<% if (usuario) { %>
+          <li class="menu-usuario">
+            <span>Hola, <%= usuario.nombre %></span>
+            <form method="post" action="/cerrar-sesion"><button class="menu-boton" type="submit">Cerrar sesión</button></form>
+          </li>
+<% } else { %>
+          <li><a href="/iniciar-sesion"<%- rutaActual === '/iniciar-sesion' ? ' aria-current="page"' : '' %>>Iniciar sesión</a></li>
+<% } %>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main id="contenido">

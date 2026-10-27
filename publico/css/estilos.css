@@ -1,0 +1,437 @@
+/* Autobahn. Paleta obligatoria (RNF-08): https://colorhunt.co/palette/f7f1deb0ba999d66384e220f
+   Contrastes medidos: cafe sobre crema 11.92:1, cafe sobre salvia 6.62:1, crema sobre cafe 11.92:1.
+   El cobre sobre crema da 4.23:1: solo en bordes, detalles y textos de 18.66 px en negrita o mas. */
+
+:root {
+  --crema: #F7F1DE;
+  --salvia: #B0BA99;
+  --cobre: #9D6638;
+  --cafe: #4E220F;
+  --linea: rgba(78, 34, 15, 0.2);
+  --fuente-texto: 'Barlow', Arial, sans-serif;
+  --fuente-titulos: 'Barlow Semi Condensed', 'Arial Narrow', Arial, sans-serif;
+  --ancho: 72rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--crema);
+  color: var(--cafe);
+  font: 400 1.0625rem/1.55 var(--fuente-texto);
+}
+
+h1, h2, h3 {
+  font-family: var(--fuente-titulos);
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0 0 0.5em;
+}
+
+h1 { font-size: clamp(2rem, 4vw, 2.75rem); }
+h2 { font-size: clamp(1.5rem, 3vw, 1.875rem); }
+p { margin: 0 0 1em; }
+img { max-width: 100%; height: auto; display: block; }
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 3px solid var(--cobre);
+  outline-offset: 3px;
+}
+
+.contenedor {
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.saltar {
+  position: absolute;
+  left: 1rem;
+  top: -3rem;
+  background: var(--crema);
+  padding: 0.5rem 1rem;
+  z-index: 10;
+}
+.saltar:focus { top: 0.5rem; }
+
+/* Cabecera: el logotipo es una placa como las de la autopista, con su filete interior */
+
+.cabecera {
+  background: var(--cafe);
+  color: var(--crema);
+}
+
+.cabecera-interior {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 2rem;
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+}
+
+.logotipo {
+  font-family: var(--fuente-titulos);
+  font-weight: 700;
+  font-size: 1.6rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  padding: 0.3rem 1rem 0.35rem;
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 2px var(--crema);
+}
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+}
+
+.menu a {
+  text-decoration: none;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+}
+.menu a:hover, .menu a[aria-current="page"] { border-bottom-color: var(--salvia); }
+
+.menu-usuario {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.menu-usuario form { margin: 0; }
+
+.menu-boton {
+  font: inherit;
+  color: var(--crema);
+  background: none;
+  border: 1px solid var(--crema);
+  border-radius: 6px;
+  padding: 0.2rem 0.7rem;
+  cursor: pointer;
+}
+
+/* Botones: texto crema sobre cafe (11.92:1) */
+
+.boton {
+  display: inline-block;
+  background: var(--cafe);
+  color: var(--crema);
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid var(--cafe);
+  border-radius: 6px;
+  padding: 0.6rem 1.15rem;
+  cursor: pointer;
+}
+.boton:hover { box-shadow: 0 0 0 3px var(--salvia); }
+
+.boton-grande {
+  font-size: 1.125rem;
+  padding: 0.8rem 1.5rem;
+}
+
+.boton-secundario {
+  background: transparent;
+  color: var(--cafe);
+}
+
+.enlace {
+  font-weight: 600;
+  text-decoration-color: var(--cobre);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+/* Portada con el letrero de destinos: en lugar de ciudades y kilometros, marcas y autos disponibles */
+
+.portada {
+  padding: 3rem 0 3.5rem;
+  border-bottom: 1px solid var(--linea);
+}
+
+.portada-interior {
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.portada h1 {
+  font-size: clamp(2.5rem, 6vw, 4.25rem);
+  line-height: 1;
+  max-width: 14ch;
+}
+
+.portada-bajada {
+  font-size: 1.1875rem;
+  max-width: 34rem;
+  margin-bottom: 1.75rem;
+}
+
+.letrero {
+  background: var(--cafe);
+  color: var(--crema);
+  border-radius: 14px;
+  outline: 3px solid var(--crema);
+  outline-offset: -11px;
+  padding: 1.75rem 2rem 1.5rem;
+}
+
+.letrero-titulo {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.letrero-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.letrero-lista li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.45rem 0;
+  border-top: 1px solid rgba(247, 241, 222, 0.3);
+}
+
+.letrero-marca {
+  font-family: var(--fuente-titulos);
+  font-weight: 700;
+  font-size: 1.625rem;
+}
+
+.letrero-cuenta {
+  font-family: var(--fuente-titulos);
+  font-weight: 600;
+  font-size: 1.25rem;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (min-width: 860px) {
+  .portada-interior { grid-template-columns: 1.35fr 1fr; }
+}
+
+/* Secciones y tarjetas */
+
+.seccion { padding: 2.5rem 1rem 3rem; }
+.seccion-pie { margin-top: 1.75rem; }
+.resumen { font-size: 1.125rem; }
+
+.rejilla-autos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: 1.5rem;
+}
+
+.tarjeta-auto {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--linea);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.tarjeta-imagen {
+  background: var(--salvia);
+  padding: 1.5rem 1.25rem 1rem;
+}
+
+.tarjeta-cuerpo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.tarjeta-cuerpo .boton { align-self: flex-start; margin-top: auto; }
+
+.tarjeta-titulo {
+  font-size: 1.5rem;
+  margin-bottom: 0.15rem;
+}
+
+.tarjeta-marca { font-weight: 600; }
+.tarjeta-datos { margin-bottom: 0.5rem; }
+
+.condicion {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border: 1px solid var(--cafe);
+  border-radius: 999px;
+  padding: 0 0.6rem;
+  margin-bottom: 0.6rem;
+}
+.condicion-nuevo { background: var(--cafe); color: var(--crema); }
+
+/* El precio usa cobre porque es texto grande en negrita (RNF-08) */
+.precio {
+  font-family: var(--fuente-titulos);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--cobre);
+  margin-bottom: 1rem;
+}
+.precio-grande { font-size: 2.25rem; }
+
+.paginacion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.paginacion-actual { font-weight: 600; }
+
+/* Ficha del auto */
+
+.migas { margin-bottom: 1.5rem; }
+
+.ficha {
+  display: grid;
+  gap: 2rem;
+  align-items: start;
+}
+
+.ficha-imagen {
+  background: var(--salvia);
+  border-radius: 4px;
+  padding: 3rem 2rem;
+}
+
+.ficha-titulo { font-size: clamp(2.25rem, 5vw, 3.25rem); margin-bottom: 0.1rem; }
+.ficha-anio { font-size: 1.25rem; font-weight: 600; }
+
+.especificaciones {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+  gap: 0 1.5rem;
+  margin: 0 0 1.5rem;
+}
+
+.especificaciones div {
+  border-top: 1px solid var(--linea);
+  padding: 0.6rem 0;
+}
+
+.especificaciones dt { font-size: 0.9375rem; }
+.especificaciones dd { margin: 0; font-weight: 600; }
+
+.ficha-descripcion { max-width: 38rem; }
+.ficha-nota {
+  border-left: 3px solid var(--cobre);
+  padding-left: 1rem;
+  max-width: 38rem;
+}
+
+@media (min-width: 860px) {
+  .ficha { grid-template-columns: 1.1fr 1fr; }
+}
+
+/* Avisos, visita y pie */
+
+.aviso { max-width: 40rem; }
+
+.visita {
+  background: var(--salvia);
+  padding: 2.5rem 0 2rem;
+}
+.visita p { max-width: 42rem; font-size: 1.125rem; }
+
+.pie {
+  background: var(--cafe);
+  color: var(--crema);
+  padding: 2rem 0 1.5rem;
+}
+
+.pie-interior {
+  display: grid;
+  gap: 0.5rem 2.5rem;
+}
+
+.pie-marca {
+  font-family: var(--fuente-titulos);
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.pie-nota { font-size: 0.9375rem; }
+
+@media (min-width: 860px) {
+  .pie-interior { grid-template-columns: auto 1fr; }
+}
+
+/* Formularios */
+
+.formulario {
+  max-width: 26rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.campo { display: grid; gap: 0.3rem; }
+.campo label { font-weight: 600; }
+
+.campo input {
+  font: inherit;
+  color: var(--cafe);
+  background: #FFFFFF;
+  border: 1px solid var(--cafe);
+  border-radius: 6px;
+  padding: 0.55rem 0.7rem;
+}
+
+.mensaje-error {
+  border-left: 4px solid var(--cafe);
+  background: var(--salvia);
+  padding: 0.6rem 0.9rem;
+  font-weight: 600;
+}
+
+/* Tablas de Mi cuenta y del panel */
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+
+.tabla th, .tabla td {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--linea);
+  vertical-align: top;
+}
+
+.tabla th { background: var(--salvia); }
+
+.envoltura-tabla { overflow-x: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto; }
+}

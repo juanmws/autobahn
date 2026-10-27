@@ -1,0 +1,31 @@
+{
+  "name": "autobahn",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Marketplace de autos alemanes nuevos y usados en Panamá. Proyecto final de Ingeniería de Software Aplicada III (UTP).",
+  "main": "src/servidor.js",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/servidor.js",
+    "bd:reiniciar": "node --disable-warning=ExperimentalWarning scripts/reiniciar-bd.js",
+    "test": "node --disable-warning=ExperimentalWarning node_modules/jest/bin/jest.js",
+    "test:cobertura": "node --disable-warning=ExperimentalWarning node_modules/jest/bin/jest.js --coverage",
+    "test:sistema": "playwright test",
+    "test:sistema:sin-firefox": "playwright test --project=chromium --project=webkit --project=celular"
+  },
+  "dependencies": {
+    "@fontsource/barlow": "^5.3.0",
+    "@fontsource/barlow-semi-condensed": "^5.3.0",
+    "bcryptjs": "^3.0.3",
+    "ejs": "^6.0.1",
+    "express": "^5.3.0",
+    "express-session": "^1.19.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64",
+    "jest": "^30.5.2",
+    "supertest": "^7.3.1"
+  }
+}

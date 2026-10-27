@@ -1,0 +1,40 @@
+<%- include('parciales/cabecera') %>
+<% const totalDisponibles = marcas.reduce((suma, m) => suma + m.cantidad, 0); %>
+    <section class="portada">
+      <div class="contenedor portada-interior">
+        <div class="portada-texto">
+          <h1>Autos alemanes nuevos y usados, en un solo lugar.</h1>
+          <p class="portada-bajada">Audi, BMW, Mercedes-Benz, Porsche y Volkswagen. Los usados se publican después de pasar una inspección en nuestro local.</p>
+          <a class="boton boton-grande" href="/catalogo">Ver el catálogo</a>
+        </div>
+        <aside class="letrero" aria-labelledby="letrero-titulo">
+          <h2 class="letrero-titulo" id="letrero-titulo">Disponibles hoy</h2>
+          <ul class="letrero-lista">
+<% marcas.forEach(({ marca, cantidad }) => { %>
+            <li>
+              <span class="letrero-marca"><%= marca %></span>
+              <span class="letrero-cuenta"><%= cantidad %> <%= cantidad === 1 ? 'auto' : 'autos' %></span>
+            </li>
+<% }) %>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="contenedor seccion">
+      <h2>Recién publicados</h2>
+      <div class="rejilla-autos">
+<% recientes.forEach((auto) => { %>
+        <%- include('parciales/tarjeta-auto', { auto }) %>
+<% }) %>
+      </div>
+      <p class="seccion-pie"><a class="enlace" href="/catalogo">Ver los <%= totalDisponibles %> autos del catálogo</a></p>
+    </section>
+
+    <section class="visita">
+      <div class="contenedor">
+        <h2>Visítanos en la Ricardo J. Alfaro</h2>
+        <p>Estamos en la Vía Ricardo J. Alfaro, al lado de la Universidad Tecnológica de Panamá. Atendemos de lunes a sábado, de 9:00 a 17:00, y ahí puedes ver y probar cualquier auto del catálogo.</p>
+      </div>
+    </section>
+<%- include('parciales/pie') %>

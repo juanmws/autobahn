@@ -1,0 +1,46 @@
+# Integracion continua: en cada cambio corre las pruebas unitarias y de integracion con cobertura,
+# las pruebas de sistema en Chromium, Firefox, WebKit y celular, y el analisis de SonarQube Cloud
+# si el repositorio tiene el secreto SONAR_TOKEN.
+name: Pruebas
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # SonarQube Cloud necesita el historial completo
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Pruebas unitarias y de integración con cobertura
+        run: npm run test:cobertura
+
+      - name: Instalar los navegadores de Playwright
+        run: npx playwright install --with-deps
+
+      - name: Pruebas de sistema
+        run: npm run test:sistema
+
+      - name: Guardar el reporte de Playwright si algo falla
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reporte-playwright
+          path: playwright-report/
+
+      - name: Análisis de SonarQube Cloud
+        if: env.SONAR_TOKEN != ''
+        uses: SonarSource/sonarqube-scan-action@v5

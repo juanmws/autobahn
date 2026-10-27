@@ -1,0 +1,23 @@
+<%- include('parciales/cabecera') %>
+    <section class="contenedor seccion">
+      <h1>Catálogo</h1>
+      <p class="resumen"><%= total %> <%= total === 1 ? 'auto disponible' : 'autos disponibles' %></p>
+<% if (autos.length === 0) { %>
+      <p class="vacio">Por ahora no hay autos disponibles. Vuelve pronto o visítanos en el local.</p>
+<% } %>
+      <div class="rejilla-autos">
+<% autos.forEach((auto) => { %>
+        <%- include('parciales/tarjeta-auto', { auto }) %>
+<% }) %>
+      </div>
+      <nav class="paginacion" aria-label="Páginas del catálogo">
+<% if (pagina > 1) { %>
+        <a class="boton boton-secundario" href="/catalogo?pagina=<%= pagina - 1 %>" rel="prev">Anterior</a>
+<% } %>
+        <span class="paginacion-actual">Página <%= pagina %> de <%= totalPaginas %></span>
+<% if (pagina < totalPaginas) { %>
+        <a class="boton boton-secundario" href="/catalogo?pagina=<%= pagina + 1 %>" rel="next">Siguiente</a>
+<% } %>
+      </nav>
+    </section>
+<%- include('parciales/pie') %>

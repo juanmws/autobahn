@@ -1,0 +1,22 @@
+<%- include('parciales/cabecera') %>
+    <section class="contenedor seccion">
+      <h1>Iniciar sesión</h1>
+      <p>Con tu cuenta puedes publicar tu auto usado, agendar pruebas de manejo y hacer ofertas.</p>
+<% if (error) { %>
+      <p class="mensaje-error" role="alert"><%= error %></p>
+<% } %>
+      <form class="formulario" method="post" action="/iniciar-sesion<%= volver ? `?volver=${encodeURIComponent(volver)}` : '' %>">
+        <div class="campo">
+          <label for="correo">Correo</label>
+          <input id="correo" name="correo" type="email" autocomplete="username" required value="<%= correo %>">
+        </div>
+        <div class="campo">
+          <label for="contrasena">Contraseña</label>
+          <input id="contrasena" name="contrasena" type="password" autocomplete="current-password" required>
+        </div>
+        <div>
+          <button class="boton" type="submit">Iniciar sesión</button>
+        </div>
+      </form>
+    </section>
+<%- include('parciales/pie') %>

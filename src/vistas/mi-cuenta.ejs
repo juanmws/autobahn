@@ -1,0 +1,36 @@
+<%- include('parciales/cabecera') %>
+    <section class="contenedor seccion">
+      <h1>Mi cuenta</h1>
+      <p><%= usuario.nombre %> <%= usuario.apellido %>, <%= usuario.correo %></p>
+
+      <h2>Mis publicaciones</h2>
+      <p>Tienes <%= activas %> <%= activas === 1 ? 'publicación activa' : 'publicaciones activas' %> de <%= limite %> permitidas.</p>
+<% if (publicaciones.length === 0) { %>
+      <p class="vacio">Todavía no has publicado ningún auto.</p>
+<% } else { %>
+      <div class="envoltura-tabla">
+        <table class="tabla">
+          <thead>
+            <tr><th scope="col">Código</th><th scope="col">Auto</th><th scope="col">Precio</th><th scope="col">Estado</th><th scope="col">Enviada</th></tr>
+          </thead>
+          <tbody>
+<% publicaciones.forEach((p) => { %>
+            <tr>
+              <td><%= p.codigo %></td>
+              <td><%= p.marca %> <%= p.modelo %> <%= p.anio %></td>
+              <td><%= formatearPrecio(p.precio_centavos) %></td>
+              <td>
+                <%= ETIQUETAS.estado[p.estado] %>
+<% if (p.estado === 'rechazada') { %>
+                <br>Motivo: <%= p.motivo_rechazo %>
+<% } %>
+              </td>
+              <td><%= formatearFecha(p.creado_en) %></td>
+            </tr>
+<% }) %>
+          </tbody>
+        </table>
+      </div>
+<% } %>
+    </section>
+<%- include('parciales/pie') %>
