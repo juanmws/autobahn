@@ -586,6 +586,10 @@ a { color: inherit; }
 
 .campo-ancho { grid-column: 1 / -1; }
 
+/* Oferta por un auto usado (RF-08): va después de .formulario para que su ancho no quede en 26rem */
+.formulario-oferta { max-width: 34rem; }
+.nota-oferta { margin: 0; font-size: 0.9375rem; }
+
 /* CU-01, paso 2: al salir de un campo se marca si su formato es correcto o no */
 .formulario-registro .campo:has(> input:user-valid) > label::after { content: " ✓"; }
 .formulario-registro .campo > input:user-invalid { border-width: 2px; }

@@ -2,6 +2,9 @@
     <section class="contenedor seccion">
       <h1>Mi cuenta</h1>
       <p><%= usuario.nombre %> <%= usuario.apellido %>, <%= usuario.correo %></p>
+<% if (aviso) { %>
+      <p class="mensaje-exito" role="status"><%= aviso %>.</p>
+<% } %>
 
       <h2>Mis citas</h2>
 <% if (citas.length === 0) { %>
@@ -19,6 +22,30 @@
               <td><%= c.marca %> <%= c.modelo %> <%= c.anio %></td>
               <td><%= formatearDia(c.fecha) %></td>
               <td><%= formatearBloque(c.hora) %></td>
+            </tr>
+<% }) %>
+          </tbody>
+        </table>
+      </div>
+<% } %>
+
+      <h2>Mis ofertas</h2>
+<% if (ofertas.length === 0) { %>
+      <p class="vacio">Todavía no has hecho ofertas. Puedes ofertar por un auto usado desde su ficha.</p>
+<% } else { %>
+      <div class="envoltura-tabla">
+        <table class="tabla">
+          <thead>
+            <tr><th scope="col">Auto</th><th scope="col">Oferta</th><th scope="col">Del precio</th><th scope="col">Estado</th><th scope="col">Enviada</th></tr>
+          </thead>
+          <tbody>
+<% ofertas.forEach((o) => { %>
+            <tr>
+              <td><a class="enlace" href="/autos/<%= o.auto_id %>"><%= o.marca %> <%= o.modelo %> <%= o.anio %></a></td>
+              <td class="sin-corte"><%= formatearPrecio(o.monto_centavos) %></td>
+              <td class="sin-corte"><%= formatearPorcentaje((o.monto_centavos * 100) / o.precio_centavos) %></td>
+              <td><%= ETIQUETAS.oferta[o.estado] %></td>
+              <td><%= formatearFecha(o.creado_en) %></td>
             </tr>
 <% }) %>
           </tbody>
@@ -54,6 +81,33 @@
           </tbody>
         </table>
       </div>
+
+      <h3>Ofertas recibidas</h3>
+<% if (recibidas.length === 0) { %>
+      <p class="vacio">Tus publicaciones todavía no tienen ofertas.</p>
+<% } else { %>
+      <p>Para responder una oferta, acércate a nuestro local: un asesor de Autobahn coordina la reunión con el comprador.</p>
+      <div class="envoltura-tabla">
+        <table class="tabla">
+          <thead>
+            <tr><th scope="col">Código</th><th scope="col">Auto</th><th scope="col">Cliente</th><th scope="col">Oferta</th><th scope="col">Del precio</th><th scope="col">Mensaje</th><th scope="col">Recibida</th></tr>
+          </thead>
+          <tbody>
+<% recibidas.forEach((o) => { %>
+            <tr>
+              <td class="sin-corte"><%= o.codigo %></td>
+              <td><%= o.marca %> <%= o.modelo %></td>
+              <td><%= o.nombre %> <%= o.inicial %>.</td>
+              <td class="sin-corte"><%= formatearPrecio(o.monto_centavos) %></td>
+              <td class="sin-corte"><%= formatearPorcentaje((o.monto_centavos * 100) / o.precio_centavos) %></td>
+              <td><%= o.mensaje || 'Sin mensaje' %></td>
+              <td><%= formatearFecha(o.creado_en) %></td>
+            </tr>
+<% }) %>
+          </tbody>
+        </table>
+      </div>
+<% } %>
 <% } %>
     </section>
 <%- include('parciales/pie') %>

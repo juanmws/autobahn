@@ -2,26 +2,14 @@
 // un administrador lo aprueba (CU-06) y el auto queda Disponible en el catálogo.
 const path = require('node:path');
 const { test, expect } = require('@playwright/test');
-const { cedulaUnica } = require('./ayudantes');
+const { crearCuentaNueva } = require('./ayudantes');
 
 const FOTO = path.join(__dirname, '..', '..', 'publico', 'img', 'autos', 'usado-golf-gti.jpg');
 
 test('un vendedor nuevo publica su auto y un administrador lo aprueba', async ({ browser }, testInfo) => {
   // cada navegador (y cada reintento) crea su propio vendedor: todos comparten el servidor
-  const unico = `${testInfo.project.name}.${Date.now()}`;
   const vendedor = await (await browser.newContext()).newPage();
-  await vendedor.goto('/crear-cuenta');
-  await vendedor.getByLabel('Nombre').fill('Marco');
-  await vendedor.getByLabel('Apellido').fill('Vega');
-  await vendedor.getByLabel('Cédula').fill(cedulaUnica(7, testInfo));
-  await vendedor.getByLabel('Fecha de nacimiento').fill('1990-03-03');
-  await vendedor.getByLabel('Celular').fill('6777-0000');
-  await vendedor.getByLabel('Correo').fill(`marco.${unico}@prueba.pa`);
-  await vendedor.getByLabel('Contraseña', { exact: true }).fill('Clave#2026');
-  await vendedor.getByLabel('Confirma la contraseña').fill('Clave#2026');
-  await vendedor.getByLabel(/Acepto los términos de uso/).check();
-  await vendedor.getByRole('button', { name: 'Registrarme' }).click();
-  await expect(vendedor.getByText('Hola, Marco')).toBeVisible();
+  await crearCuentaNueva(vendedor, testInfo, { nombre: 'Marco', apellido: 'Vega', provincia: 7 });
 
   await vendedor.getByRole('link', { name: 'Vender mi auto' }).click();
   await vendedor.getByLabel('Marca').selectOption('Volkswagen');

@@ -66,5 +66,6 @@ describe('ETIQUETAS', () => {
     expect(ETIQUETAS.transmision.automatica).toBe('Automática');
     expect(ETIQUETAS.combustible.diesel).toBe('Diésel');
     expect(ETIQUETAS.condicion.usado).toBe('Usado');
+    expect(ETIQUETAS.oferta.pendiente).toBe('Pendiente');
   });
 });

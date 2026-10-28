@@ -21,7 +21,7 @@ test('calcular la cuota de un auto usado desde su ficha', async ({ page }) => {
 
 test('muestra el porcentaje aunque el abono se escriba antes de que cargue el script', async ({ page }) => {
   // reproduce la carrera vista en Firefox en CI: el script llega tarde y el abono ya está escrito
-  await page.route('**/js/financiamiento.js', async (ruta) => {
+  await page.route('**/js/porcentaje.js', async (ruta) => {
     await new Promise((listo) => setTimeout(listo, 800));
     await ruta.continue();
   });

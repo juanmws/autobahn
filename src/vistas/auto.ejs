@@ -15,10 +15,14 @@
           <h1 class="ficha-titulo"><%= auto.marca %> <%= auto.modelo %></h1>
           <p class="ficha-anio"><%= auto.anio %></p>
           <p class="precio precio-grande"><%= formatearPrecio(auto.precio_centavos) %></p>
+<% const esCompradorPosible = !usuario || (usuario.rol === 'cliente' && usuario.id !== auto.vendedor_id); %>
           <p class="ficha-acciones">
             <a class="boton" href="/autos/<%= auto.id %>/financiamiento">Calcular financiamiento</a>
-<% if (!usuario || (usuario.rol === 'cliente' && usuario.id !== auto.vendedor_id)) { %>
+<% if (esCompradorPosible) { %>
             <a class="boton boton-secundario" href="/autos/<%= auto.id %>/prueba-de-manejo">Agendar prueba de manejo</a>
+<% } %>
+<% if (esCompradorPosible && auto.condicion === 'usado') { %>
+            <a class="boton boton-secundario" href="/autos/<%= auto.id %>/oferta">Hacer oferta</a>
 <% } %>
           </p>
           <dl class="especificaciones">
