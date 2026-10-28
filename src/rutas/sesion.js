@@ -1,5 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const { iniciarSesion } = require('../middleware/autenticacion');
 
 const MENSAJE_FALLIDO = 'Correo o contraseña incorrectos.';
 
@@ -32,9 +33,7 @@ function rutasSesion({ db }) {
       return res.status(401).render('iniciar-sesion', { titulo: 'Iniciar sesión', volver, correo, error: MENSAJE_FALLIDO });
     }
 
-    // sesion nueva al iniciar, para que un identificador anterior no quede autenticado
-    await new Promise((resolver, rechazar) => req.session.regenerate((e) => (e ? rechazar(e) : resolver())));
-    req.session.usuarioId = cuenta.id;
+    await iniciarSesion(req, cuenta.id);
     res.redirect(destinoSeguro(volver));
   });
 

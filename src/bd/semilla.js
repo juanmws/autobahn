@@ -1,8 +1,8 @@
 const bcrypt = require('bcryptjs');
 const datos = require('./datos-semilla');
 const { FOTOS } = require('./fotos-semilla');
+const { COSTO_BCRYPT } = require('../seguridad');
 
-const COSTO_BCRYPT = 10; // RNF-04
 const ANIO_NUEVOS = 2026;
 const USUARIOS_CREADOS_EN = '2026-08-01T09:00:00';
 

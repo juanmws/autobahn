@@ -1,0 +1,75 @@
+<%- include('parciales/cabecera') %>
+<%
+  // atributos de accesibilidad de un campo: marca el error y lo enlaza con su mensaje (RNF-02)
+  const conError = (campo) => errores[campo] ? ` aria-invalid="true" aria-describedby="error-${campo}"` : '';
+%>
+    <section class="contenedor seccion">
+      <h1>Crear cuenta</h1>
+      <p class="resumen">Con tu cuenta puedes publicar tu auto usado, agendar pruebas de manejo y hacer ofertas.</p>
+<% if (duplicada) { %>
+      <p class="mensaje-error" role="alert">Ya existe una cuenta con esa cédula o ese correo. <a class="enlace" href="/iniciar-sesion">Iniciar sesión</a></p>
+<% } else if (Object.keys(errores).length > 0) { %>
+      <p class="mensaje-error" role="alert">Revisa los campos marcados.</p>
+<% } %>
+      <!-- Los pattern repiten la RN-02 para avisar al salir de cada campo; el servidor vuelve a validar todo -->
+      <form class="formulario formulario-registro" method="post" action="/crear-cuenta" novalidate>
+        <div class="campo">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" autocomplete="given-name" required minlength="2" maxlength="50" pattern="[\p{L}](?:[\p{L}' \-]*[\p{L}])?" value="<%= valores.nombre %>"<%- conError('nombre') %>>
+<% if (errores.nombre) { %><p class="campo-error" id="error-nombre"><%= errores.nombre %></p><% } %>
+        </div>
+
+        <div class="campo">
+          <label for="apellido">Apellido</label>
+          <input id="apellido" name="apellido" autocomplete="family-name" required minlength="2" maxlength="50" pattern="[\p{L}](?:[\p{L}' \-]*[\p{L}])?" value="<%= valores.apellido %>"<%- conError('apellido') %>>
+<% if (errores.apellido) { %><p class="campo-error" id="error-apellido"><%= errores.apellido %></p><% } %>
+        </div>
+
+        <div class="campo">
+          <label for="cedula">Cédula</label>
+          <input id="cedula" name="cedula" required placeholder="8-1016-1882" pattern="(?:[1-9]|1[0-3]|[EeNn]|[Pp][Ee])-[0-9]{1,4}-[0-9]{1,6}" value="<%= valores.cedula %>"<%- conError('cedula') %>>
+<% if (errores.cedula) { %><p class="campo-error" id="error-cedula"><%= errores.cedula %></p><% } %>
+        </div>
+
+        <div class="campo">
+          <label for="fechaNacimiento">Fecha de nacimiento</label>
+          <input id="fechaNacimiento" name="fechaNacimiento" type="date" autocomplete="bday" required max="<%= fechaMaxima %>" value="<%= valores.fechaNacimiento %>"<%- conError('fechaNacimiento') %>>
+<% if (errores.fechaNacimiento) { %><p class="campo-error" id="error-fechaNacimiento"><%= errores.fechaNacimiento %></p><% } %>
+        </div>
+
+        <div class="campo">
+          <label for="telefono">Celular</label>
+          <input id="telefono" name="telefono" type="tel" autocomplete="tel-national" required placeholder="6123-4567" pattern="6[0-9]{3}[\- ]?[0-9]{4}" value="<%= valores.telefono %>"<%- conError('telefono') %>>
+<% if (errores.telefono) { %><p class="campo-error" id="error-telefono"><%= errores.telefono %></p><% } %>
+        </div>
+
+        <div class="campo">
+          <label for="correo">Correo</label>
+          <input id="correo" name="correo" type="email" autocomplete="email" required maxlength="254" value="<%= valores.correo %>"<%- conError('correo') %>>
+<% if (errores.correo) { %><p class="campo-error" id="error-correo"><%= errores.correo %></p><% } %>
+        </div>
+
+        <div class="campo">
+          <label for="contrasena">Contraseña</label>
+          <input id="contrasena" name="contrasena" type="password" autocomplete="new-password" required minlength="8" maxlength="64" pattern="(?=.*\p{Lu})(?=.*\p{Ll})(?=.*[0-9]).{8,64}"<%- errores.contrasena ? ' aria-invalid="true" aria-describedby="error-contrasena"' : ' aria-describedby="ayuda-contrasena"' %>>
+          <p class="campo-ayuda" id="ayuda-contrasena">De 8 a 64 caracteres, con al menos una mayúscula, una minúscula y un número.</p>
+<% if (errores.contrasena) { %><p class="campo-error" id="error-contrasena"><%= errores.contrasena %></p><% } %>
+        </div>
+
+        <div class="campo">
+          <label for="confirmacion">Confirma la contraseña</label>
+          <input id="confirmacion" name="confirmacion" type="password" autocomplete="new-password" required<%- conError('confirmacion') %>>
+<% if (errores.confirmacion) { %><p class="campo-error" id="error-confirmacion"><%= errores.confirmacion %></p><% } %>
+        </div>
+
+        <div class="campo campo-ancho campo-casilla">
+          <label><input type="checkbox" id="terminos" name="terminos" value="si" required<%- valores.terminos ? ' checked' : '' %><%- conError('terminos') %>> Acepto los términos de uso: mis datos se usan solo para gestionar mis publicaciones, citas y ofertas en Autobahn.</label>
+<% if (errores.terminos) { %><p class="campo-error" id="error-terminos"><%= errores.terminos %></p><% } %>
+        </div>
+
+        <div class="campo-ancho"><button class="boton" type="submit">Registrarme</button></div>
+      </form>
+      <p class="seccion-pie">¿Ya tienes cuenta? <a class="enlace" href="/iniciar-sesion">Iniciar sesión</a></p>
+      <script src="/js/registro.js" defer></script>
+    </section>
+<%- include('parciales/pie') %>

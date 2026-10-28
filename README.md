@@ -101,7 +101,7 @@ pruebas, en el orden de prioridad del plan de pruebas (Tabla 4 del E1):
 | 1 | RF-04. Calcular el financiamiento de un auto | Lista: `/autos/:id/financiamiento`, regla en `src/reglas/financiamiento.js` |
 | 2 | RF-07. Agendar una prueba de manejo | Lista: `/autos/:id/prueba-de-manejo`, regla en `src/reglas/citas.js`, Mis citas en Mi cuenta |
 | 3 | RF-05. Publicar un auto usado | Lista: `/vender`, reglas en `src/reglas/publicacion.js`; queda En revisión hasta el RF-06 |
-| 4 | RF-01. Registrar una cuenta de cliente | Pendiente |
+| 4 | RF-01. Registrar una cuenta de cliente | Lista: `/crear-cuenta`, reglas en `src/reglas/registro.js` |
 | 5 | RF-06. Revisar una publicación de auto usado | Pendiente |
 | 6 | RF-08. Hacer una oferta por un auto usado | Pendiente |
 | 7 | RF-02. Buscar autos con filtros | Pendiente (hoy el catálogo no tiene filtros) |

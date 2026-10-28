@@ -539,7 +539,8 @@ a { color: inherit; }
   gap: 1rem;
 }
 
-.campo { display: grid; gap: 0.3rem; }
+/* align-content evita que un campo estire su caja de texto cuando otro de la misma fila es más alto */
+.campo { display: grid; gap: 0.3rem; align-content: start; }
 .campo label { font-weight: 600; }
 
 .campo input, .campo select, .campo textarea {
@@ -570,14 +571,34 @@ a { color: inherit; }
   font-weight: 600;
 }
 
-/* Publicar un auto usado (RF-05): dos columnas en pantallas anchas */
-.formulario-publicar {
+/* Publicar un auto (RF-05) y crear cuenta (RF-01): dos columnas en pantallas anchas */
+.formulario-publicar, .formulario-registro {
   max-width: 52rem;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
   gap: 1rem 1.5rem;
 }
 
 .campo-ancho { grid-column: 1 / -1; }
+
+/* CU-01, paso 2: al salir de un campo se marca si su formato es correcto o no */
+.formulario-registro .campo:has(> input:user-valid) > label::after { content: " ✓"; }
+.formulario-registro .campo > input:user-invalid { border-width: 2px; }
+
+.campo-casilla label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-weight: 400;
+}
+
+.campo-casilla input {
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-top: 0.25rem;
+  accent-color: var(--cafe);
+}
+
+.bienvenida { margin: 1.5rem 0 0; }
 
 .miniaturas {
   display: flex;

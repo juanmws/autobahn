@@ -1,5 +1,8 @@
 <%- include('parciales/cabecera') %>
 <% const totalDisponibles = marcas.reduce((suma, m) => suma + m.cantidad, 0); %>
+<% if (bienvenida) { %>
+    <div class="contenedor"><p class="mensaje-exito bienvenida" role="status">Bienvenido a Autobahn, <%= bienvenida %>. Ya puedes publicar tu auto, agendar pruebas de manejo y hacer ofertas.</p></div>
+<% } %>
     <section class="portada">
       <div class="contenedor portada-interior">
         <div class="portada-texto">
