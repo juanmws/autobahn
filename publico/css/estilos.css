@@ -1,13 +1,18 @@
-/* Autobahn. Paleta obligatoria (RNF-08): https://colorhunt.co/palette/f7f1deb0ba999d66384e220f
-   Contrastes medidos: cafe sobre crema 11.92:1, cafe sobre salvia 6.62:1, crema sobre cafe 11.92:1.
-   El cobre sobre crema da 4.23:1: solo en bordes, detalles y textos de 18.66 px en negrita o mas. */
+/* Autobahn. Paleta obligatoria (RNF-08): https://coolors.co/palette/cfdbd5-e8eddf-f5cb5c-242423-333533
+   El asfalto y la línea amarilla de los tramos en obra de la autopista alemana.
+   Contrastes medidos: asfalto sobre alabastro 13.03:1, asfalto sobre platino 10.91:1, asfalto sobre
+   azafrán 10.05:1, alabastro sobre grafito 10.37:1, azafrán sobre grafito 8.00:1.
+   El azafrán sobre los fondos claros da 1.30:1: ahí nunca es texto ni un borde que haga falta ver; va de
+   fondo bajo texto asfalto o de acento sobre las superficies oscuras (pruebas/unitarias/paleta.test.js). */
 
 :root {
-  --crema: #F7F1DE;
-  --salvia: #B0BA99;
-  --cobre: #9D6638;
-  --cafe: #4E220F;
-  --linea: rgba(78, 34, 15, 0.2);
+  --alabastro: #E8EDDF;
+  --platino: #CFDBD5;
+  --azafran: #F5CB5C;
+  --grafito: #333533;
+  --asfalto: #242423;
+  --linea: rgba(36, 36, 35, 0.2);
+  --linea-clara: rgba(232, 237, 223, 0.25);
   --fuente-texto: 'Barlow', Arial, sans-serif;
   --fuente-titulos: 'Barlow Semi Condensed', 'Arial Narrow', Arial, sans-serif;
   --ancho: 72rem;
@@ -19,8 +24,9 @@ html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
-  background: var(--crema);
-  color: var(--cafe);
+  accent-color: var(--asfalto); /* casillas y botones de opción con la paleta, no con el azul del navegador */
+  background: var(--alabastro);
+  color: var(--asfalto);
   font: 400 1.0625rem/1.55 var(--fuente-texto);
 }
 
@@ -39,9 +45,10 @@ img { max-width: 100%; height: auto; display: block; }
 a { color: inherit; }
 
 :focus-visible {
-  outline: 3px solid var(--cobre);
+  outline: 3px solid var(--asfalto);
   outline-offset: 3px;
 }
+.cabecera :focus-visible, .letrero :focus-visible, .pie :focus-visible { outline-color: var(--azafran); }
 
 .contenedor {
   max-width: var(--ancho);
@@ -62,17 +69,17 @@ a { color: inherit; }
   position: absolute;
   left: 1rem;
   top: -3rem;
-  background: var(--crema);
+  background: var(--alabastro);
   padding: 0.5rem 1rem;
   z-index: 10;
 }
 .saltar:focus { top: 0.5rem; }
 
-/* Cabecera: el logotipo es una placa como las de la autopista, con su filete interior */
+/* Cabecera: el logotipo es una placa amarilla como los letreros de desvío de la autopista, con su filete interior */
 
 .cabecera {
-  background: var(--cafe);
-  color: var(--crema);
+  background: var(--asfalto);
+  color: var(--alabastro);
 }
 
 .cabecera-interior {
@@ -93,7 +100,9 @@ a { color: inherit; }
   text-decoration: none;
   padding: 0.3rem 1rem 0.35rem;
   border-radius: 8px;
-  box-shadow: inset 0 0 0 2px var(--crema);
+  background: var(--azafran);
+  color: var(--asfalto);
+  box-shadow: inset 0 0 0 4px var(--azafran), inset 0 0 0 6px var(--asfalto);
 }
 
 .menu {
@@ -112,7 +121,7 @@ a { color: inherit; }
   padding: 0.25rem 0;
   border-bottom: 2px solid transparent;
 }
-.menu a:hover, .menu a[aria-current="page"] { border-bottom-color: var(--salvia); }
+.menu a:hover, .menu a[aria-current="page"] { border-bottom-color: var(--azafran); }
 
 .menu-usuario {
   display: flex;
@@ -123,29 +132,29 @@ a { color: inherit; }
 
 .menu-boton {
   font: inherit;
-  color: var(--crema);
+  color: var(--alabastro);
   background: none;
-  border: 1px solid var(--crema);
+  border: 1px solid var(--alabastro);
   border-radius: 6px;
   padding: 0.2rem 0.7rem;
   cursor: pointer;
 }
 
-/* Botones: texto crema sobre cafe (11.92:1) */
+/* Botones: texto alabastro sobre asfalto (13.03:1); al pasar el puntero aparece la línea amarilla del carril */
 
 .boton {
   display: inline-block;
-  background: var(--cafe);
-  color: var(--crema);
+  background: var(--asfalto);
+  color: var(--alabastro);
   font: inherit; /* los <button> no heredan la tipografia por defecto */
   font-weight: 600;
   text-decoration: none;
-  border: 2px solid var(--cafe);
+  border: 2px solid var(--asfalto);
   border-radius: 6px;
   padding: 0.6rem 1.15rem;
   cursor: pointer;
 }
-.boton:hover { box-shadow: 0 0 0 3px var(--salvia); }
+.boton:hover { box-shadow: inset 0 -4px 0 var(--azafran); }
 
 .boton-grande {
   font-size: 1.125rem;
@@ -154,12 +163,12 @@ a { color: inherit; }
 
 .boton-secundario {
   background: transparent;
-  color: var(--cafe);
+  color: var(--asfalto);
 }
+.boton-secundario:hover { background: var(--platino); }
 
 .enlace {
   font-weight: 600;
-  text-decoration-color: var(--cobre);
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
 }
@@ -190,10 +199,10 @@ a { color: inherit; }
 }
 
 .letrero {
-  background: var(--cafe);
-  color: var(--crema);
+  background: var(--grafito);
+  color: var(--alabastro);
   border-radius: 14px;
-  outline: 3px solid var(--crema);
+  outline: 3px solid var(--azafran);
   outline-offset: -11px;
   padding: 1.75rem 2rem 1.5rem;
 }
@@ -216,7 +225,7 @@ a { color: inherit; }
   align-items: baseline;
   gap: 1rem;
   padding: 0.45rem 0;
-  border-top: 1px solid rgba(247, 241, 222, 0.3);
+  border-top: 1px solid var(--linea-clara);
 }
 
 .letrero-marca {
@@ -226,6 +235,7 @@ a { color: inherit; }
 }
 
 .letrero-cuenta {
+  color: var(--azafran);
   font-family: var(--fuente-titulos);
   font-weight: 600;
   font-size: 1.25rem;
@@ -256,9 +266,9 @@ a { color: inherit; }
   overflow: hidden;
 }
 
-/* Fotos en proporcion 3:2; sin foto, la silueta centrada sobre salvia ocupa el mismo espacio */
+/* Fotos en proporcion 3:2; sin foto, la silueta centrada sobre platino ocupa el mismo espacio */
 .tarjeta-imagen {
-  background: var(--salvia);
+  background: var(--platino);
   aspect-ratio: 3 / 2;
   display: grid;
   place-items: center;
@@ -299,19 +309,17 @@ a { color: inherit; }
   align-self: flex-start;
   font-size: 0.9375rem;
   font-weight: 600;
-  border: 1px solid var(--cafe);
+  border: 1px solid var(--asfalto);
   border-radius: 999px;
   padding: 0 0.6rem;
   margin-bottom: 0.6rem;
 }
-.condicion-nuevo { background: var(--cafe); color: var(--crema); }
+.condicion-nuevo { background: var(--asfalto); color: var(--alabastro); }
 
-/* El precio usa cobre porque es texto grande en negrita (RNF-08) */
 .precio {
   font-family: var(--fuente-titulos);
   font-weight: 700;
   font-size: 1.5rem;
-  color: var(--cobre);
   margin-bottom: 1rem;
 }
 .precio-grande { font-size: 2.25rem; }
@@ -348,7 +356,7 @@ a { color: inherit; }
 }
 
 .ficha-imagen-silueta {
-  background: var(--salvia);
+  background: var(--platino);
   border-radius: 4px;
   padding: 3rem 2rem;
 }
@@ -373,7 +381,7 @@ a { color: inherit; }
 
 .ficha-descripcion { max-width: 38rem; }
 .ficha-nota {
-  border-left: 3px solid var(--cobre);
+  border-left: 3px solid var(--asfalto);
   padding-left: 1rem;
   max-width: 38rem;
 }
@@ -387,14 +395,14 @@ a { color: inherit; }
 .aviso { max-width: 40rem; }
 
 .visita {
-  background: var(--salvia);
+  background: var(--platino);
   padding: 2.5rem 0 2rem;
 }
 .visita p { max-width: 42rem; font-size: 1.125rem; }
 
 .pie {
-  background: var(--cafe);
-  color: var(--crema);
+  background: var(--grafito);
+  color: var(--alabastro);
   padding: 2rem 0 1.5rem;
 }
 
@@ -439,12 +447,12 @@ a { color: inherit; }
   display: block;
   text-decoration: none;
   font-weight: 600;
-  border: 1px solid var(--cafe);
+  border: 1px solid var(--asfalto);
   border-radius: 6px;
   padding: 0.5rem 0.75rem;
 }
-.dia:hover { box-shadow: 0 0 0 3px var(--salvia); }
-.dia[aria-current="date"] { background: var(--cafe); color: var(--crema); }
+.dia:hover { box-shadow: inset 0 -4px 0 var(--azafran); }
+.dia[aria-current="date"] { background: var(--asfalto); color: var(--alabastro); }
 
 .formulario-cita { max-width: 40rem; }
 
@@ -467,18 +475,18 @@ a { color: inherit; }
   border-radius: 6px;
   padding: 0.45rem 0.6rem;
 }
-.bloque:has(input:checked) { border-color: var(--cafe); background: var(--salvia); }
+.bloque:has(input:checked) { border-color: var(--asfalto); background: var(--azafran); }
 
 .bloque-ocupado {
   font-size: 0.875rem;
   font-weight: 600;
-  border: 1px solid var(--cafe);
+  border: 1px solid var(--asfalto);
   border-radius: 999px;
   padding: 0 0.45rem;
 }
 
 .resumen-cita {
-  border-top: 3px solid var(--cafe);
+  border-top: 3px solid var(--asfalto);
   padding-top: 1.25rem;
   max-width: 48rem;
 }
@@ -492,11 +500,9 @@ a { color: inherit; }
 
 .codigo-cita { font-size: 1.25rem; }
 
-/* El codigo va en cobre porque es texto grande en negrita (RNF-08) */
 .codigo-cita strong {
   font-family: var(--fuente-titulos);
   font-size: 2rem;
-  color: var(--cobre);
 }
 
 .calculadora {
@@ -523,7 +529,7 @@ a { color: inherit; }
 .parametros li { border-top: 1px solid var(--linea); padding: 0.45rem 0; }
 
 .resultado {
-  border-top: 3px solid var(--cafe);
+  border-top: 3px solid var(--asfalto);
   padding-top: 1.5rem;
 }
 
@@ -545,9 +551,9 @@ a { color: inherit; }
 
 .campo input, .campo select, .campo textarea {
   font: inherit;
-  color: var(--cafe);
-  background: #FFFFFF;
-  border: 1px solid var(--cafe);
+  color: var(--asfalto);
+  background: var(--alabastro);
+  border: 1px solid var(--asfalto);
   border-radius: 6px;
   padding: 0.55rem 0.7rem;
 }
@@ -560,13 +566,13 @@ a { color: inherit; }
 .campo-error {
   margin: 0;
   font-weight: 600;
-  border-left: 4px solid var(--cafe);
+  border-left: 4px solid var(--asfalto);
   padding-left: 0.6rem;
 }
 
 .mensaje-error, .mensaje-exito {
-  border-left: 4px solid var(--cafe);
-  background: var(--salvia);
+  border-left: 4px solid var(--asfalto);
+  background: var(--platino);
   padding: 0.6rem 0.9rem;
   font-weight: 600;
 }
@@ -595,7 +601,6 @@ a { color: inherit; }
   width: 1.15rem;
   height: 1.15rem;
   margin-top: 0.25rem;
-  accent-color: var(--cafe);
 }
 
 .bienvenida { margin: 1.5rem 0 0; }
@@ -650,7 +655,7 @@ a { color: inherit; }
   vertical-align: top;
 }
 
-.tabla th { background: var(--salvia); }
+.tabla th { background: var(--platino); }
 
 .envoltura-tabla { overflow-x: auto; }
 
