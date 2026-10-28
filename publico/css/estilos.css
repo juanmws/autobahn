@@ -605,10 +605,10 @@ a { color: inherit; }
 
 .bienvenida { margin: 1.5rem 0 0; }
 
-/* Revisión de publicaciones (RF-06) */
+/* Revisión de publicaciones (RF-06). auto-fit: con una sola foto, la foto ocupa toda la columna */
 .galeria-revision {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
   gap: 0.5rem;
 }
 
@@ -620,7 +620,7 @@ a { color: inherit; }
 }
 
 .decision {
-  border-top: 3px solid var(--cafe);
+  border-top: 3px solid var(--asfalto);
   padding-top: 1rem;
   margin-top: 1.5rem;
 }
@@ -656,6 +656,8 @@ a { color: inherit; }
 }
 
 .tabla th { background: var(--platino); }
+/* códigos y precios no se parten en el guion ni después de "B/." */
+.tabla .sin-corte { white-space: nowrap; }
 
 .envoltura-tabla { overflow-x: auto; }
 
