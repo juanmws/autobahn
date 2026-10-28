@@ -93,8 +93,9 @@ docs/                 plan de la base
 
 La base incluye lo que necesitan todas las funcionalidades: catálogo de solo lectura con
 paginación, ficha del auto, inicio y cierre de sesión, Mis publicaciones, panel del administrador
-y control de acceso por rol. Las ocho funcionalidades se agregan una por una, cada una con sus
-pruebas, en el orden de prioridad del plan de pruebas (Tabla 4 del E1):
+y control de acceso por rol. Sobre ella se agregaron las ocho funcionalidades una por una, cada
+una con sus pruebas y en su propio pull request, en el orden de prioridad del plan de pruebas
+(Tabla 4 del E1). Las ocho están listas:
 
 | Orden | Funcionalidad | Estado |
 |:--|:--|:--|
@@ -105,7 +106,7 @@ pruebas, en el orden de prioridad del plan de pruebas (Tabla 4 del E1):
 | 5 | RF-06. Revisar una publicación de auto usado | Lista: `/admin/publicaciones`, reglas en `src/reglas/revision.js` |
 | 6 | RF-08. Hacer una oferta por un auto usado | Lista: `/autos/:id/oferta`, reglas en `src/reglas/ofertas.js`, Mis ofertas y Ofertas recibidas en Mi cuenta |
 | 7 | RF-02. Buscar autos con filtros | Lista: filtros y orden en `/catalogo`, reglas en `src/reglas/busqueda.js`, consulta en `construirConsulta` de `src/consultas/autos.js` |
-| 8 | RF-03. Comparar autos | Pendiente |
+| 8 | RF-03. Comparar autos | Lista: "Comparar" en las tarjetas y la ficha, tabla en `/comparacion`, reglas en `src/reglas/comparacion.js`; la lista vive en la sesión |
 
 ## Cambios a los requisitos
 
