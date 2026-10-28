@@ -17,10 +17,10 @@
           <tbody>
 <% publicaciones.forEach((p) => { %>
             <tr>
-              <td><a class="enlace" href="/admin/publicaciones/<%= p.codigo %>"><%= p.codigo %></a></td>
+              <td class="sin-corte"><a class="enlace" href="/admin/publicaciones/<%= p.codigo %>"><%= p.codigo %></a></td>
               <td><%= p.marca %> <%= p.modelo %> <%= p.anio %></td>
               <td><%= p.nombre %> <%= p.apellido %></td>
-              <td><%= formatearPrecio(p.precio_centavos) %></td>
+              <td class="sin-corte"><%= formatearPrecio(p.precio_centavos) %></td>
               <td><%= formatearFecha(p.creado_en) %></td>
             </tr>
 <% }) %>
