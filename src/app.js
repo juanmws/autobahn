@@ -8,6 +8,7 @@ const { rutasSesion } = require('./rutas/sesion');
 const { rutasCuenta } = require('./rutas/cuenta');
 const { rutasCitas } = require('./rutas/citas');
 const { rutasPublicar } = require('./rutas/publicar');
+const { rutasRegistro } = require('./rutas/registro');
 
 const TREINTA_MINUTOS = 30 * 60 * 1000; // RNF-04: la sesion se cierra tras 30 minutos de inactividad
 
@@ -46,6 +47,7 @@ function crearApp({ db, reloj, secretoSesion, registrarError = console.error, ca
 
   app.use(rutasPublicas({ db, reloj }));
   app.use(rutasSesion({ db }));
+  app.use(rutasRegistro({ db, reloj }));
   app.use(rutasCuenta({ db }));
   app.use(rutasCitas({ db, reloj }));
   app.use(rutasPublicar({ db, reloj, carpetaSubidas }));

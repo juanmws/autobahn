@@ -8,10 +8,16 @@ function rutasPublicas({ db }) {
   const router = express.Router();
 
   router.get('/', (req, res) => {
+    // CU-01, paso 5: la bienvenida de una cuenta recién creada se muestra una sola vez
+    const bienvenida = req.session?.bienvenida ?? null;
+    if (bienvenida) {
+      delete req.session.bienvenida;
+    }
     res.render('inicio', {
       titulo: 'Autos alemanes nuevos y usados en Panamá',
       recientes: listarRecientes(db, RECIENTES_EN_INICIO),
       marcas: contarPorMarca(db),
+      bienvenida,
     });
   });
 

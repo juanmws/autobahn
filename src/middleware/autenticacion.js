@@ -31,4 +31,10 @@ function requiereRol(rol) {
   }];
 }
 
-module.exports = { cargarUsuario, requiereSesion, requiereRol };
+// Sesion nueva al iniciar (con su identificador nuevo), para que uno anterior no quede autenticado
+async function iniciarSesion(req, usuarioId) {
+  await new Promise((resolver, rechazar) => req.session.regenerate((e) => (e ? rechazar(e) : resolver())));
+  req.session.usuarioId = usuarioId;
+}
+
+module.exports = { cargarUsuario, requiereSesion, requiereRol, iniciarSesion };

@@ -1,5 +1,6 @@
 // RF-07 y RN-09: dias, bloques y validaciones de una prueba de manejo.
 // Las fechas viajan como texto AAAA-MM-DD, que se ordena igual que el calendario.
+const { fechaIso, esFechaIso } = require('../fechas');
 
 const BLOQUES = [9, 10, 11, 12, 13, 14, 15, 16]; // hora de inicio de cada bloque de una hora
 const DIAS_DE_ANTICIPACION = 14;
@@ -16,21 +17,6 @@ const MENSAJES = {
   limite: 'Ya tienes 2 pruebas de manejo programadas, el máximo permitido',
   mismo_bloque: 'Ya tienes una cita a esa hora; elige otro bloque',
 };
-
-function fechaIso(fecha) {
-  const dos = (n) => String(n).padStart(2, '0');
-  return `${fecha.getFullYear()}-${dos(fecha.getMonth() + 1)}-${dos(fecha.getDate())}`;
-}
-
-// Fecha valida del calendario (descarta, por ejemplo, el 30 de febrero)
-function esFechaIso(texto) {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(texto)) {
-    return false;
-  }
-  const [anio, mes, dia] = texto.split('-').map(Number);
-  const fecha = new Date(anio, mes - 1, dia);
-  return fecha.getFullYear() === anio && fecha.getMonth() === mes - 1 && fecha.getDate() === dia;
-}
 
 // De lunes a sabado, desde manana hasta 14 dias despues
 function diasHabilitados(hoy) {
