@@ -104,7 +104,7 @@ pruebas, en el orden de prioridad del plan de pruebas (Tabla 4 del E1):
 | 4 | RF-01. Registrar una cuenta de cliente | Lista: `/crear-cuenta`, reglas en `src/reglas/registro.js` |
 | 5 | RF-06. Revisar una publicación de auto usado | Lista: `/admin/publicaciones`, reglas en `src/reglas/revision.js` |
 | 6 | RF-08. Hacer una oferta por un auto usado | Lista: `/autos/:id/oferta`, reglas en `src/reglas/ofertas.js`, Mis ofertas y Ofertas recibidas en Mi cuenta |
-| 7 | RF-02. Buscar autos con filtros | Pendiente (hoy el catálogo no tiene filtros) |
+| 7 | RF-02. Buscar autos con filtros | Lista: filtros y orden en `/catalogo`, reglas en `src/reglas/busqueda.js`, consulta en `construirConsulta` de `src/consultas/autos.js` |
 | 8 | RF-03. Comparar autos | Pendiente |
 
 ## Cambios a los requisitos

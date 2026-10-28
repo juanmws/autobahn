@@ -22,13 +22,54 @@ function normalizarPagina(valor, totalPaginas) {
   return Math.min(Math.max(numero, 1), totalPaginas);
 }
 
-function listarDisponibles(db, { pagina } = {}) {
-  const { total } = db.prepare("SELECT COUNT(*) AS total FROM autos WHERE estado = 'disponible'").get();
+// RF-02. Cada filtro presente agrega su condición, en este orden; todas se combinan con AND (RN-03).
+// Los valores van como parámetros, nunca dentro del texto SQL.
+const CONDICIONES_DE_FILTRO = [
+  ['marca', 'a.marca = ?'],
+  ['modelo', 'a.modelo = ?'],
+  ['condicion', 'a.condicion = ?'],
+  ['precioMin', 'a.precio_centavos >= ?'],
+  ['precioMax', 'a.precio_centavos <= ?'],
+  ['anioDesde', 'a.anio >= ?'],
+  ['anioHasta', 'a.anio <= ?'],
+  ['kmMaximo', 'a.kilometraje <= ?'],
+  ['transmision', 'a.transmision = ?'],
+  ['combustible', 'a.combustible = ?'],
+];
+
+// Cada orden desempata por fecha e id, para que un auto no salte de una página a otra
+const ORDEN_SQL = {
+  recientes: 'a.creado_en DESC, a.id DESC',
+  precio_asc: 'a.precio_centavos ASC, a.creado_en DESC, a.id DESC',
+  precio_desc: 'a.precio_centavos DESC, a.creado_en DESC, a.id DESC',
+  anio_desc: 'a.anio DESC, a.creado_en DESC, a.id DESC',
+  km_asc: 'a.kilometraje ASC, a.creado_en DESC, a.id DESC',
+};
+
+function construirConsulta(filtros, orden) {
+  const presentes = CONDICIONES_DE_FILTRO.filter(([clave]) => filtros[clave] !== undefined);
+  return {
+    where: ["a.estado = 'disponible'", ...presentes.map(([, condicion]) => condicion)].join(' AND '),
+    parametros: presentes.map(([clave]) => filtros[clave]),
+    ordenSql: ORDEN_SQL[orden] ?? ORDEN_SQL.recientes,
+  };
+}
+
+function listarDisponibles(db, { pagina, filtros, orden }) {
+  const { where, parametros, ordenSql } = construirConsulta(filtros, orden);
+  const { total } = db.prepare(`SELECT COUNT(*) AS total FROM autos a WHERE ${where}`).get(...parametros);
   const totalPaginas = Math.max(1, Math.ceil(total / POR_PAGINA));
   const actual = normalizarPagina(pagina, totalPaginas);
-  const autos = db.prepare(`${AUTO_CON_FOTO} ${DISPONIBLES_MAS_RECIENTES} LIMIT ? OFFSET ?`)
-    .all(POR_PAGINA, (actual - 1) * POR_PAGINA);
+  const autos = db.prepare(`${AUTO_CON_FOTO} WHERE ${where} ORDER BY ${ordenSql} LIMIT ? OFFSET ?`)
+    .all(...parametros, POR_PAGINA, (actual - 1) * POR_PAGINA);
   return { autos, pagina: actual, totalPaginas, total };
+}
+
+// CU-02, paso 2: los modelos disponibles de cada marca, para la lista de modelos del filtro
+function modelosPorMarca(db) {
+  const filas = db.prepare(`SELECT DISTINCT marca, modelo FROM autos WHERE estado = 'disponible'
+                            ORDER BY marca, modelo`).all();
+  return Object.fromEntries(MARCAS.map((marca) => [marca, filas.filter((f) => f.marca === marca).map((f) => f.modelo)]));
 }
 
 function listarRecientes(db, cantidad) {
@@ -61,6 +102,6 @@ function contarPorRevisar(db) {
 }
 
 module.exports = {
-  POR_PAGINA, MARCAS, LIMITE_ACTIVAS, listarDisponibles, listarRecientes, contarPorMarca, buscarDisponible,
-  listarPublicacionesDe, contarPorRevisar,
+  POR_PAGINA, MARCAS, LIMITE_ACTIVAS, construirConsulta, listarDisponibles, modelosPorMarca, listarRecientes,
+  contarPorMarca, buscarDisponible, listarPublicacionesDe, contarPorRevisar,
 };

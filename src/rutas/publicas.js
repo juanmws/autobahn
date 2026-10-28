@@ -1,10 +1,16 @@
 const express = require('express');
-const { listarDisponibles, listarRecientes, contarPorMarca, buscarDisponible } = require('../consultas/autos');
+const {
+  MARCAS, listarDisponibles, modelosPorMarca, listarRecientes, contarPorMarca, buscarDisponible,
+} = require('../consultas/autos');
 const { PARAMETROS, leerMonto, abonoMinimo, calcularFinanciamiento } = require('../reglas/financiamiento');
+const {
+  CONDICIONES, KILOMETRAJES, ORDENES, leerBusqueda, enlaceDeBusqueda, aniosDelFiltro,
+} = require('../reglas/busqueda');
+const { TRANSMISIONES, COMBUSTIBLES } = require('../reglas/publicacion');
 
 const RECIENTES_EN_INICIO = 6;
 
-function rutasPublicas({ db }) {
+function rutasPublicas({ db, reloj }) {
   const router = express.Router();
 
   router.get('/', (req, res) => {
@@ -21,8 +27,27 @@ function rutasPublicas({ db }) {
     });
   });
 
+  // CU-02. Los filtros van por GET: una búsqueda se puede recargar, compartir y paginar (FA-2).
+  // Con un rango al revés (FA-1) se responde 422 y se muestra el catálogo sin filtrar.
   router.get('/catalogo', (req, res) => {
-    res.render('catalogo', { titulo: 'Catálogo', ...listarDisponibles(db, { pagina: req.query.pagina }) });
+    const busqueda = leerBusqueda(req.query);
+    const resultado = listarDisponibles(db, { pagina: req.query.pagina, filtros: busqueda.filtros, orden: busqueda.orden });
+    res.status(busqueda.valido ? 200 : 422).render('catalogo', {
+      titulo: 'Catálogo',
+      ...resultado,
+      busqueda,
+      enlacePagina: (pagina) => enlaceDeBusqueda(busqueda, pagina),
+      opciones: {
+        marcas: MARCAS,
+        modelos: modelosPorMarca(db),
+        condiciones: CONDICIONES,
+        anios: aniosDelFiltro(reloj.ahora().getFullYear()),
+        kilometrajes: KILOMETRAJES,
+        transmisiones: TRANSMISIONES,
+        combustibles: COMBUSTIBLES,
+        ordenes: ORDENES,
+      },
+    });
   });
 
   router.get('/autos/:id', (req, res, next) => {
