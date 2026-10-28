@@ -82,7 +82,7 @@ src/
   vistas/             plantillas EJS
 publico/              hoja de estilos con la paleta (RNF-08) e imágenes
 pruebas/
-  unitarias/          Jest: formatos, reloj y base de datos
+  unitarias/          Jest: reglas de negocio, formatos, reloj, base de datos y paleta (RNF-08)
   integracion/        Jest y Supertest: rutas con la base de datos
   sistema/            Playwright: prueba de humo y ancho de pantalla
 .github/workflows/    integración continua
@@ -106,6 +106,15 @@ pruebas, en el orden de prioridad del plan de pruebas (Tabla 4 del E1):
 | 6 | RF-08. Hacer una oferta por un auto usado | Pendiente |
 | 7 | RF-02. Buscar autos con filtros | Pendiente (hoy el catálogo no tiene filtros) |
 | 8 | RF-03. Comparar autos | Pendiente |
+
+## Cambios a los requisitos
+
+Cambios aprobados después del E1. Cada uno se refleja en el código, en sus pruebas y en el siguiente
+entregable.
+
+| Fecha | Requisito | Antes (E1) | Ahora |
+|:--|:--|:--|:--|
+| 27/10/2026 | RNF-08. Identidad visual | Paleta de Color Hunt: crema #F7F1DE, salvia #B0BA99, cobre #9D6638 y café #4E220F | Paleta de Coolors (https://coolors.co/palette/cfdbd5-e8eddf-f5cb5c-242423-333533): alabastro #E8EDDF para el fondo, platino #CFDBD5 para superficies secundarias, asfalto #242423 para el texto, la cabecera y los botones, grafito #333533 para el letrero y el pie, y azafrán #F5CB5C para el logotipo y los acentos. El azafrán sobre los fondos claros da 1.30:1, así que nunca es texto ahí; lo comprueba `pruebas/unitarias/paleta.test.js` |
 
 ## GitHub y SonarQube Cloud
 
