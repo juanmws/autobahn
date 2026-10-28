@@ -590,6 +590,98 @@ a { color: inherit; }
 .formulario-oferta { max-width: 34rem; }
 .nota-oferta { margin: 0; font-size: 0.9375rem; }
 
+/* Catálogo con filtros (RF-02): el panel va a la izquierda en pantallas anchas y plegado arriba en el
+   celular, para que los autos no queden más de una pantalla abajo */
+.catalogo {
+  display: grid;
+  gap: 1.5rem 2rem;
+  align-items: start;
+}
+
+@media (min-width: 960px) {
+  .catalogo { grid-template-columns: 17rem 1fr; }
+}
+
+.panel-filtros {
+  background: var(--platino);
+  border-radius: 6px;
+}
+
+.panel-filtros summary {
+  font-family: var(--fuente-titulos);
+  font-weight: 700;
+  font-size: 1.375rem;
+  padding: 0.8rem 1.25rem;
+  cursor: pointer;
+}
+
+.filtros {
+  display: grid;
+  gap: 1rem;
+  padding: 0 1.25rem 1.25rem;
+}
+
+.campo-grupo {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  display: grid;
+  gap: 0.3rem;
+}
+.campo-grupo legend { font-weight: 600; padding: 0; margin-bottom: 0.3rem; }
+
+.rango {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+.rango .campo label { font-weight: 400; }
+.rango .campo input, .rango .campo select { min-width: 0; }
+
+.opciones-en-linea {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.1rem;
+}
+.opciones-en-linea label { display: flex; align-items: center; gap: 0.4rem; }
+
+.filtros-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+}
+
+.resultados { min-width: 0; }
+
+.resultados-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+.resultados-cabecera .resumen { margin: 0; }
+
+.orden {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.orden label { font-weight: 600; }
+.orden select {
+  font: inherit;
+  color: var(--asfalto);
+  background: var(--alabastro);
+  border: 1px solid var(--asfalto);
+  border-radius: 6px;
+  padding: 0.45rem 0.6rem;
+}
+.orden .boton { padding: 0.45rem 0.9rem; }
+
 /* CU-01, paso 2: al salir de un campo se marca si su formato es correcto o no */
 .formulario-registro .campo:has(> input:user-valid) > label::after { content: " ✓"; }
 .formulario-registro .campo > input:user-invalid { border-width: 2px; }

@@ -1,23 +1,151 @@
 <%- include('parciales/cabecera') %>
+<%
+  const { valores, errores } = busqueda;
+  const marcado = (condicion) => (condicion ? ' selected' : '');
+  const conError = (rango) => (errores[rango] ? ` aria-invalid="true" aria-describedby="error-${rango}"` : '');
+  const marcasDelModelo = valores.marca ? [valores.marca] : opciones.marcas;
+  const aplicados = Object.keys(busqueda.filtros).length;
+  const kmElegido = Number(valores.kmMaximo.replaceAll(',', ''));
+  const totalTexto = busqueda.hayFiltros
+    ? `${total} ${total === 1 ? 'auto encontrado' : 'autos encontrados'}`
+    : `${total} ${total === 1 ? 'auto disponible' : 'autos disponibles'}`;
+%>
     <section class="contenedor seccion">
       <h1>Catálogo</h1>
-      <p class="resumen"><%= total %> <%= total === 1 ? 'auto disponible' : 'autos disponibles' %></p>
-<% if (autos.length === 0) { %>
-      <p class="vacio">Por ahora no hay autos disponibles. Vuelve pronto o visítanos en el local.</p>
-<% } %>
-      <div class="rejilla-autos">
-<% autos.forEach((auto) => { %>
-        <%- include('parciales/tarjeta-auto', { auto }) %>
+      <div class="catalogo">
+        <details class="panel-filtros"<%= busqueda.valido ? '' : ' open' %>>
+          <summary>Filtros<%= aplicados > 0 ? ` (${aplicados})` : '' %></summary>
+          <form id="filtros" class="filtros" method="get" action="/catalogo" novalidate>
+            <div class="campo">
+              <label for="marca">Marca</label>
+              <select id="marca" name="marca">
+                <option value="">Todas las marcas</option>
+<% opciones.marcas.forEach((m) => { %>
+                <option value="<%= m %>"<%= marcado(valores.marca === m) %>><%= m %></option>
 <% }) %>
-      </div>
-      <nav class="paginacion" aria-label="Páginas del catálogo">
+              </select>
+            </div>
+            <div class="campo">
+              <label for="modelo">Modelo</label>
+              <select id="modelo" name="modelo" data-modelos="<%= JSON.stringify(opciones.modelos) %>">
+                <option value="">Todos los modelos</option>
+<% marcasDelModelo.forEach((m) => { %>
+                <optgroup label="<%= m %>">
+<% opciones.modelos[m].forEach((modelo) => { %>
+                  <option value="<%= modelo %>"<%= marcado(valores.modelo === modelo) %>><%= modelo %></option>
+<% }) %>
+                </optgroup>
+<% }) %>
+              </select>
+            </div>
+            <fieldset class="campo-grupo">
+              <legend>Condición</legend>
+              <div class="opciones-en-linea">
+                <label><input type="radio" name="condicion" value=""<%= valores.condicion === '' ? ' checked' : '' %>> Ambos</label>
+<% opciones.condiciones.forEach((c) => { %>
+                <label><input type="radio" name="condicion" value="<%= c %>"<%= valores.condicion === c ? ' checked' : '' %>> <%= ETIQUETAS.condicion[c] %></label>
+<% }) %>
+              </div>
+            </fieldset>
+            <fieldset class="campo-grupo">
+              <legend>Precio (B/.)</legend>
+              <div class="rango">
+                <div class="campo">
+                  <label for="precioMin">Mínimo</label>
+                  <input id="precioMin" name="precioMin" inputmode="decimal" autocomplete="off" value="<%= valores.precioMin %>"<%- conError('precio') %>>
+                </div>
+                <div class="campo">
+                  <label for="precioMax">Máximo</label>
+                  <input id="precioMax" name="precioMax" inputmode="decimal" autocomplete="off" value="<%= valores.precioMax %>"<%- conError('precio') %>>
+                </div>
+              </div>
+<% if (errores.precio) { %>
+              <p class="campo-error" id="error-precio"><%= errores.precio %></p>
+<% } %>
+            </fieldset>
+            <fieldset class="campo-grupo">
+              <legend>Año</legend>
+              <div class="rango">
+<% [['anioDesde', 'Desde'], ['anioHasta', 'Hasta']].forEach(([campo, etiqueta]) => { %>
+                <div class="campo">
+                  <label for="<%= campo %>"><%= etiqueta %></label>
+                  <select id="<%= campo %>" name="<%= campo %>"<%- conError('anio') %>>
+                    <option value="">Todos</option>
+<% opciones.anios.forEach((anio) => { %>
+                    <option value="<%= anio %>"<%= marcado(Number(valores[campo]) === anio) %>><%= anio %></option>
+<% }) %>
+                  </select>
+                </div>
+<% }) %>
+              </div>
+<% if (errores.anio) { %>
+              <p class="campo-error" id="error-anio"><%= errores.anio %></p>
+<% } %>
+            </fieldset>
+            <div class="campo">
+              <label for="kmMaximo">Kilometraje máximo</label>
+              <select id="kmMaximo" name="kmMaximo">
+                <option value="">Cualquiera</option>
+<% opciones.kilometrajes.forEach((km) => { %>
+                <option value="<%= km %>"<%= marcado(kmElegido === km) %>>Hasta <%= formatearKm(km) %></option>
+<% }) %>
+              </select>
+            </div>
+<% [['transmision', 'Transmisión', opciones.transmisiones], ['combustible', 'Combustible', opciones.combustibles]].forEach(([campo, etiqueta, lista]) => { %>
+            <div class="campo">
+              <label for="<%= campo %>"><%= etiqueta %></label>
+              <select id="<%= campo %>" name="<%= campo %>">
+                <option value="">Cualquiera</option>
+<% lista.forEach((valor) => { %>
+                <option value="<%= valor %>"<%= marcado(valores[campo] === valor) %>><%= ETIQUETAS[campo][valor] %></option>
+<% }) %>
+              </select>
+            </div>
+<% }) %>
+            <div class="filtros-acciones">
+              <button class="boton" type="submit">Aplicar filtros</button>
+              <a class="enlace" href="/catalogo">Limpiar filtros</a>
+            </div>
+          </form>
+        </details>
+
+        <div class="resultados">
+          <div class="resultados-cabecera">
+            <p class="resumen"><%= totalTexto %></p>
+            <div class="orden">
+              <label for="orden">Ordenar por</label>
+              <select id="orden" name="orden" form="filtros">
+<% Object.entries(opciones.ordenes).forEach(([valor, texto]) => { %>
+                <option value="<%= valor %>"<%= marcado(busqueda.orden === valor) %>><%= texto %></option>
+<% }) %>
+              </select>
+              <button class="boton boton-secundario" type="submit" form="filtros">Ordenar</button>
+            </div>
+          </div>
+<% if (autos.length === 0 && busqueda.hayFiltros) { %>
+          <div class="vacio">
+            <p><strong>No encontramos autos con esos filtros.</strong></p>
+            <p>Prueba ampliar los rangos de precio o de año, o <a class="enlace" href="/catalogo">limpia los filtros</a>.</p>
+          </div>
+<% } else if (autos.length === 0) { %>
+          <p class="vacio">Por ahora no hay autos disponibles. Vuelve pronto o visítanos en el local.</p>
+<% } %>
+          <div class="rejilla-autos">
+<% autos.forEach((auto) => { %>
+            <%- include('parciales/tarjeta-auto', { auto }) %>
+<% }) %>
+          </div>
+          <nav class="paginacion" aria-label="Páginas del catálogo">
 <% if (pagina > 1) { %>
-        <a class="boton boton-secundario" href="/catalogo?pagina=<%= pagina - 1 %>" rel="prev">Anterior</a>
+            <a class="boton boton-secundario" href="<%= enlacePagina(pagina - 1) %>" rel="prev">Anterior</a>
 <% } %>
-        <span class="paginacion-actual">Página <%= pagina %> de <%= totalPaginas %></span>
+            <span class="paginacion-actual">Página <%= pagina %> de <%= totalPaginas %></span>
 <% if (pagina < totalPaginas) { %>
-        <a class="boton boton-secundario" href="/catalogo?pagina=<%= pagina + 1 %>" rel="next">Siguiente</a>
+            <a class="boton boton-secundario" href="<%= enlacePagina(pagina + 1) %>" rel="next">Siguiente</a>
 <% } %>
-      </nav>
+          </nav>
+        </div>
+      </div>
     </section>
+    <script src="/js/catalogo.js" defer></script>
 <%- include('parciales/pie') %>
