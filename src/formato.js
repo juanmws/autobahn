@@ -42,6 +42,11 @@ function formatearBloque(hora) {
   return `${hora}:00 a ${hora + 1}:00`;
 }
 
+// Celular de 8 digitos como se escribe en Panama: "61234507" -> "6123-4507"
+function formatearTelefono(telefono) {
+  return `${telefono.slice(0, 4)}-${telefono.slice(4)}`;
+}
+
 // Textos que se muestran para los valores que se guardan en la base de datos
 const ETIQUETAS = {
   condicion: { nuevo: 'Nuevo', usado: 'Usado' },
@@ -51,5 +56,6 @@ const ETIQUETAS = {
 };
 
 module.exports = {
-  formatearPrecio, formatearKm, formatearFecha, formatearPorcentaje, formatearDia, formatearBloque, ETIQUETAS,
+  formatearPrecio, formatearKm, formatearFecha, formatearPorcentaje, formatearDia, formatearBloque, formatearTelefono,
+  ETIQUETAS,
 };

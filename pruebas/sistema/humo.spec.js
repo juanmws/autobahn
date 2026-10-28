@@ -10,7 +10,8 @@ test('iniciar sesión, buscar un auto en el catálogo y abrir su ficha', async (
   await expect(page.getByText('Hola, Carlos')).toBeVisible();
 
   await page.getByRole('link', { name: 'Catálogo', exact: true }).click();
-  await expect(page.getByText('36 autos disponibles')).toBeVisible();
+  // la cantidad exacta la prueban las de integración; aquí otras pruebas de sistema pueden aprobar autos
+  await expect(page.getByText(/^\d+ autos disponibles$/)).toBeVisible();
   await expect(page.locator('.tarjeta-auto')).toHaveCount(12);
 
   const tarjeta = page.locator('.tarjeta-auto').first();
