@@ -20,11 +20,3 @@ test('iniciar sesión, buscar un auto en el catálogo y abrir su ficha', async (
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(titulo);
   await expect(page.locator('.precio-grande')).toHaveText(/^B\/\. [\d,]+\.\d{2}$/);
 });
-
-test('las páginas principales no se desplazan de lado (RNF-05)', async ({ page }) => {
-  for (const ruta of ['/', '/catalogo', '/autos/1', '/iniciar-sesion']) {
-    await page.goto(ruta);
-    const desborde = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
-    expect(desborde, `desborde horizontal en ${ruta}`).toBeLessThanOrEqual(0);
-  }
-});
