@@ -78,3 +78,6 @@ CREATE TABLE IF NOT EXISTS ofertas (
   estado TEXT NOT NULL CHECK (estado IN ('pendiente')),
   creado_en TEXT NOT NULL
 );
+
+-- RN-10: una sola oferta Pendiente por cliente y auto, aunque lleguen dos envíos a la vez.
+CREATE UNIQUE INDEX IF NOT EXISTS ofertas_una_pendiente ON ofertas (auto_id, cliente_id) WHERE estado = 'pendiente';

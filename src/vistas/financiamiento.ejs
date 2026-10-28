@@ -20,7 +20,7 @@
         <form class="formulario" method="get" action="/autos/<%= auto.id %>/financiamiento" data-precio-centavos="<%= auto.precio_centavos %>" novalidate>
           <div class="campo">
             <label for="abono">Abono (B/.)</label>
-            <input id="abono" name="abono" inputmode="decimal" autocomplete="off" required value="<%= abonoTexto %>"<%- errores.abono ? ' aria-invalid="true" aria-describedby="error-abono"' : ' aria-describedby="porcentaje-abono"' %>>
+            <input id="abono" name="abono" inputmode="decimal" autocomplete="off" required value="<%= abonoTexto %>" data-porcentaje="porcentaje-abono"<%- errores.abono ? ' aria-invalid="true" aria-describedby="error-abono"' : ' aria-describedby="porcentaje-abono"' %>>
             <p class="campo-ayuda" id="porcentaje-abono" aria-live="polite"><%= porcentajeAbono === null ? '' : `${formatearPorcentaje(porcentajeAbono)} del precio` %></p>
 <% if (errores.abono) { %>
             <p class="campo-error" id="error-abono"><%= errores.abono %></p>
@@ -54,5 +54,5 @@
       </section>
 <% } %>
     </section>
-    <script src="/js/financiamiento.js" defer></script>
+    <script src="/js/porcentaje.js" defer></script>
 <%- include('parciales/pie') %>

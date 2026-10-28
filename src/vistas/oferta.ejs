@@ -1,0 +1,37 @@
+<%- include('parciales/cabecera') %>
+    <section class="contenedor seccion">
+      <p class="migas"><a class="enlace" href="/autos/<%= auto.id %>">Volver a la ficha del <%= auto.marca %> <%= auto.modelo %></a></p>
+      <h1>Hacer una oferta</h1>
+      <p class="resumen"><%= auto.marca %> <%= auto.modelo %> <%= auto.anio %>, publicado en <strong><%= formatearPrecio(auto.precio_centavos) %></strong>.</p>
+<% if (aviso) { %>
+      <p class="mensaje-error" role="alert"><%= aviso %>.</p>
+<% if (pendiente) { %>
+      <p><a class="enlace" href="/mi-cuenta">Ver mis ofertas</a></p>
+<% } %>
+<% } else { %>
+      <p>Puedes ofrecer de <%= formatearPrecio(rango.minimoCentavos) %> a <%= formatearPrecio(rango.maximoCentavos) %>, es decir, del 80 % al 100 % del precio publicado.</p>
+      <form class="formulario formulario-oferta" method="post" action="/autos/<%= auto.id %>/oferta" data-precio-centavos="<%= auto.precio_centavos %>" novalidate>
+        <div class="campo">
+          <label for="monto">Tu oferta (B/.)</label>
+          <input id="monto" name="monto" inputmode="decimal" autocomplete="off" required value="<%= valores.monto %>" data-porcentaje="porcentaje-oferta"<%- errores.monto ? ' aria-invalid="true" aria-describedby="error-monto"' : ' aria-describedby="porcentaje-oferta"' %>>
+          <p class="campo-ayuda" id="porcentaje-oferta" aria-live="polite"></p>
+<% if (errores.monto) { %>
+          <p class="campo-error" id="error-monto"><%= errores.monto %></p>
+<% } %>
+        </div>
+        <div class="campo">
+          <label for="mensaje">Mensaje para el vendedor (opcional, hasta 300 caracteres)</label>
+          <textarea id="mensaje" name="mensaje" rows="4" maxlength="300"<%- errores.mensaje ? ' aria-invalid="true" aria-describedby="error-mensaje"' : '' %>><%= valores.mensaje %></textarea>
+<% if (errores.mensaje) { %>
+          <p class="campo-error" id="error-mensaje"><%= errores.mensaje %></p>
+<% } %>
+        </div>
+        <p class="nota-oferta">El vendedor verá tu oferta en su cuenta. La respuesta y el cierre de la venta se coordinan en nuestro local de la Vía Ricardo J. Alfaro, con un asesor de Autobahn.</p>
+        <div>
+          <button class="boton" type="submit">Enviar oferta</button>
+        </div>
+      </form>
+<% } %>
+    </section>
+    <script src="/js/porcentaje.js" defer></script>
+<%- include('parciales/pie') %>

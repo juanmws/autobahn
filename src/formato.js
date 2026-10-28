@@ -53,6 +53,7 @@ const ETIQUETAS = {
   transmision: { automatica: 'Automática', manual: 'Manual' },
   combustible: { gasolina: 'Gasolina', diesel: 'Diésel', hibrido: 'Híbrido', electrico: 'Eléctrico' },
   estado: { en_revision: 'En revisión', disponible: 'Disponible', rechazada: 'Rechazada' },
+  oferta: { pendiente: 'Pendiente' },
 };
 
 module.exports = {
