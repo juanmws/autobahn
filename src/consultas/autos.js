@@ -90,6 +90,13 @@ function buscarDisponible(db, id) {
   return db.prepare(`${AUTO_CON_FOTO} WHERE a.id = ? AND a.estado = 'disponible'`).get(Number(id));
 }
 
+// RF-03: los autos Disponible de la lista de comparación, en el orden en que se agregaron
+function buscarDisponiblesPorIds(db, ids) {
+  const autos = db.prepare(`${AUTO_CON_FOTO} WHERE a.estado = 'disponible' AND a.id IN (${ids.map(() => '?').join(', ')})`)
+    .all(...ids);
+  return ids.map((id) => autos.find((a) => a.id === id)).filter(Boolean);
+}
+
 const LIMITE_ACTIVAS = 3; // RN-07: publicaciones En revision o Disponible por cliente
 
 function listarPublicacionesDe(db, vendedorId) {
@@ -103,5 +110,5 @@ function contarPorRevisar(db) {
 
 module.exports = {
   POR_PAGINA, MARCAS, LIMITE_ACTIVAS, construirConsulta, listarDisponibles, modelosPorMarca, listarRecientes,
-  contarPorMarca, buscarDisponible, listarPublicacionesDe, contarPorRevisar,
+  contarPorMarca, buscarDisponible, buscarDisponiblesPorIds, listarPublicacionesDe, contarPorRevisar,
 };

@@ -48,7 +48,9 @@ a { color: inherit; }
   outline: 3px solid var(--asfalto);
   outline-offset: 3px;
 }
-.cabecera :focus-visible, .letrero :focus-visible, .pie :focus-visible { outline-color: var(--azafran); }
+.cabecera :focus-visible, .letrero :focus-visible, .pie :focus-visible, .barra-comparacion :focus-visible {
+  outline-color: var(--azafran);
+}
 
 .contenedor {
   max-width: var(--ancho);
@@ -166,6 +168,14 @@ a { color: inherit; }
   color: var(--asfalto);
 }
 .boton-secundario:hover { background: var(--platino); }
+
+/* Botón amarillo para las superficies oscuras: texto asfalto sobre azafrán (10.05:1) */
+.boton-acento {
+  background: var(--azafran);
+  color: var(--asfalto);
+  border-color: var(--azafran);
+}
+.boton-acento:hover { box-shadow: inset 0 -4px 0 var(--asfalto); }
 
 .enlace {
   font-weight: 600;
@@ -294,7 +304,13 @@ a { color: inherit; }
   padding: 1rem 1.25rem 1.25rem;
 }
 
-.tarjeta-cuerpo .boton { align-self: flex-start; margin-top: auto; }
+.tarjeta-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 0.75rem;
+  margin-top: auto;
+}
 
 .tarjeta-titulo {
   font-size: 1.5rem;
@@ -682,6 +698,60 @@ a { color: inherit; }
 }
 .orden .boton { padding: 0.45rem 0.9rem; }
 
+/* Comparación (RF-03). La barra queda pegada abajo mientras se recorre el sitio, con la línea amarilla
+   del carril arriba; el mejor valor de cada fila lleva fondo azafrán y una etiqueta con texto. */
+.form-comparar { margin: 0; }
+.en-comparacion { font-weight: 600; }
+.en-comparacion::before { content: "✓ "; }
+
+.barra-comparacion {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  background: var(--asfalto);
+  color: var(--alabastro);
+  border-top: 4px solid var(--azafran);
+}
+
+.barra-comparacion-interior {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.barra-aviso, .barra-contador, .barra-nota { margin: 0; }
+.barra-aviso { flex-basis: 100%; font-weight: 600; }
+
+.tabla-comparacion thead th {
+  background: transparent;
+  vertical-align: bottom;
+  min-width: 12rem;
+  font-family: var(--fuente-titulos);
+  font-size: 1.25rem;
+}
+
+.tabla-comparacion thead img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.tabla-comparacion tbody th { white-space: nowrap; }
+.tabla-comparacion .mejor { background: var(--azafran); font-weight: 600; }
+.etiqueta-mejor { display: block; font-size: 0.8125rem; }
+
+.comparacion-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.comparacion-acciones form { margin: 0; }
+
 /* CU-01, paso 2: al salir de un campo se marca si su formato es correcto o no */
 .formulario-registro .campo:has(> input:user-valid) > label::after { content: " ✓"; }
 .formulario-registro .campo > input:user-invalid { border-width: 2px; }
@@ -755,7 +825,9 @@ a { color: inherit; }
 /* códigos y precios no se parten en el guion ni después de "B/." */
 .tabla .sin-corte { white-space: nowrap; }
 
-.envoltura-tabla { overflow-x: auto; }
+/* position: relative hace que los textos .solo-lectores de las celdas queden dentro del desplazamiento;
+   si no, se salen de la tabla y la página entera se desborda hacia la derecha en el celular */
+.envoltura-tabla { overflow-x: auto; position: relative; }
 
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto; }

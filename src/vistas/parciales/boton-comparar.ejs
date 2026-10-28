@@ -1,0 +1,10 @@
+<%# CU-03, paso 1: "Comparar" en la tarjeta o en la ficha. Si el auto ya está en la lista, se dice en su lugar. %>
+<% if ((locals.comparacion ?? []).some((c) => c.id === auto.id)) { %>
+      <span class="en-comparacion">En la comparación</span>
+<% } else { %>
+      <form class="form-comparar" method="post" action="/comparacion">
+        <input type="hidden" name="autoId" value="<%= auto.id %>">
+        <input type="hidden" name="volver" value="<%= urlActual %>">
+        <button class="boton boton-secundario" type="submit">Comparar<span class="solo-lectores"> el <%= auto.marca %> <%= auto.modelo %></span></button>
+      </form>
+<% } %>

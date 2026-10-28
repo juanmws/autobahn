@@ -16,7 +16,7 @@
           <p class="ficha-anio"><%= auto.anio %></p>
           <p class="precio precio-grande"><%= formatearPrecio(auto.precio_centavos) %></p>
 <% const esCompradorPosible = !usuario || (usuario.rol === 'cliente' && usuario.id !== auto.vendedor_id); %>
-          <p class="ficha-acciones">
+          <div class="ficha-acciones">
             <a class="boton" href="/autos/<%= auto.id %>/financiamiento">Calcular financiamiento</a>
 <% if (esCompradorPosible) { %>
             <a class="boton boton-secundario" href="/autos/<%= auto.id %>/prueba-de-manejo">Agendar prueba de manejo</a>
@@ -24,7 +24,8 @@
 <% if (esCompradorPosible && auto.condicion === 'usado') { %>
             <a class="boton boton-secundario" href="/autos/<%= auto.id %>/oferta">Hacer oferta</a>
 <% } %>
-          </p>
+<%- include('parciales/boton-comparar', { auto }) %>
+          </div>
           <dl class="especificaciones">
             <div><dt>Kilometraje</dt><dd><%= formatearKm(auto.kilometraje) %></dd></div>
             <div><dt>Transmisión</dt><dd><%= ETIQUETAS.transmision[auto.transmision] %></dd></div>

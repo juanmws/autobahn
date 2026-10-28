@@ -1,0 +1,21 @@
+<%
+  // CU-03, pasos 1 y 2: barra con los autos elegidos y su contador; "Ver comparación" desde el segundo auto
+  const enComparacion = locals.comparacion ?? [];
+%>
+<% if (!locals.ocultarBarra && (enComparacion.length > 0 || locals.avisoComparacion)) { %>
+  <aside class="barra-comparacion" aria-label="Comparación de autos">
+    <div class="contenedor barra-comparacion-interior">
+<% if (locals.avisoComparacion) { %>
+      <p class="barra-aviso" role="status"><%= avisoComparacion %>.</p>
+<% } %>
+<% if (enComparacion.length > 0) { %>
+      <p class="barra-contador"><strong><%= enComparacion.length %> de <%= maximoComparacion %></strong> para comparar: <%= enComparacion.map((a) => `${a.marca} ${a.modelo}`).join(', ') %></p>
+<% if (enComparacion.length >= 2) { %>
+      <a class="boton boton-acento" href="/comparacion">Ver comparación</a>
+<% } else { %>
+      <p class="barra-nota">Agrega otro auto para comparar</p>
+<% } %>
+<% } %>
+    </div>
+  </aside>
+<% } %>

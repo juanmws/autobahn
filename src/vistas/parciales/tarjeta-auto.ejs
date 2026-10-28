@@ -9,6 +9,9 @@
     <h3 class="tarjeta-titulo"><span class="tarjeta-marca"><%= auto.marca %></span> <%= auto.modelo %></h3>
     <p class="tarjeta-datos"><%= auto.anio %>, <%= formatearKm(auto.kilometraje) %></p>
     <p class="precio"><%= formatearPrecio(auto.precio_centavos) %></p>
-    <a class="boton" href="/autos/<%= auto.id %>">Ver detalle<span class="solo-lectores"> del <%= auto.marca %> <%= auto.modelo %></span></a>
+    <div class="tarjeta-acciones">
+      <a class="boton" href="/autos/<%= auto.id %>">Ver detalle<span class="solo-lectores"> del <%= auto.marca %> <%= auto.modelo %></span></a>
+<%- include('boton-comparar', { auto }) %>
+    </div>
   </div>
 </article>

@@ -1,0 +1,62 @@
+<%- include('parciales/cabecera') %>
+<%
+  // CU-03, pasos 3 y 4: una columna por auto; las filas con clave resaltan el mejor valor (RN-04)
+  const filas = [
+    ['Año', (a) => a.anio, 'anio', 'Año más reciente'],
+    ['Condición', (a) => ETIQUETAS.condicion[a.condicion]],
+    ['Precio', (a) => formatearPrecio(a.precio_centavos), 'precio', 'Menor precio'],
+    ['Kilometraje', (a) => formatearKm(a.kilometraje), 'kilometraje', 'Menor kilometraje'],
+    ['Transmisión', (a) => ETIQUETAS.transmision[a.transmision]],
+    ['Combustible', (a) => ETIQUETAS.combustible[a.combustible]],
+    ['Motor', (a) => a.motor || 'No indicado'],
+  ];
+%>
+    <section class="contenedor seccion">
+      <p class="migas"><a class="enlace" href="/catalogo">Volver al catálogo</a></p>
+      <h1>Comparar autos</h1>
+<% if (locals.avisoComparacion) { %>
+      <p class="mensaje-exito" role="status"><%= avisoComparacion %>.</p>
+<% } %>
+      <p>Resaltamos el menor precio, el año más reciente y el menor kilometraje.</p>
+      <div class="envoltura-tabla">
+        <table class="tabla tabla-comparacion">
+          <caption class="solo-lectores">Comparación de <%= autos.length %> autos</caption>
+          <thead>
+            <tr>
+              <td></td>
+<% autos.forEach((auto) => { %>
+              <th scope="col">
+                <img src="<%= auto.foto_ruta || '/img/silueta-auto.svg' %>" alt="" width="800" height="533">
+                <%= auto.marca %> <%= auto.modelo %>
+              </th>
+<% }) %>
+            </tr>
+          </thead>
+          <tbody>
+<% filas.forEach(([nombre, valor, clave, etiqueta]) => { %>
+            <tr>
+              <th scope="row"><%= nombre %></th>
+<% autos.forEach((auto) => { const destaca = clave !== undefined && mejores[clave].includes(auto.id); %>
+              <td<%- destaca ? ' class="mejor"' : '' %>><%= valor(auto) %><% if (destaca) { %> <span class="etiqueta-mejor"><%= etiqueta %></span><% } %></td>
+<% }) %>
+            </tr>
+<% }) %>
+            <tr>
+              <th scope="row"><span class="solo-lectores">Acciones</span></th>
+<% autos.forEach((auto) => { %>
+              <td>
+                <div class="comparacion-acciones">
+                  <a class="boton" href="/autos/<%= auto.id %>">Ver detalle<span class="solo-lectores"> del <%= auto.marca %> <%= auto.modelo %></span></a>
+                  <form method="post" action="/comparacion/quitar">
+                    <input type="hidden" name="autoId" value="<%= auto.id %>">
+                    <button class="boton boton-secundario" type="submit">Quitar<span class="solo-lectores"> el <%= auto.marca %> <%= auto.modelo %></span></button>
+                  </form>
+                </div>
+              </td>
+<% }) %>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+<%- include('parciales/pie') %>
