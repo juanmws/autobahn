@@ -45,6 +45,8 @@ la lista completa está en `docs/creditos-fotos.md`. Si una foto se cambia, hay 
 | `npm run test:cobertura` | Lo mismo, con el reporte de cobertura en `coverage/` |
 | `npm run test:sistema` | Pruebas de sistema en el navegador (Playwright): Chromium, Firefox, WebKit y celular |
 | `npm run test:sistema:sin-firefox` | Las mismas, sin Firefox (ver nota) |
+| `npm run test:accesibilidad` | RNF-03: Lighthouse (Accesibilidad) en las 16 páginas, también las del cliente y del administrador; informes en `informes/lighthouse/` |
+| `npm run test:carga` | RNF-01: prueba de carga con k6 en Docker, 500 autos y 20 usuarios simultáneos; resumen en `informes/carga/` |
 | `npm run bd:reiniciar` | Borra la base local y las fotos que subieron los clientes, y crea la base de nuevo con los datos de prueba |
 
 La primera vez que se usan las pruebas de sistema hay que descargar los navegadores:
