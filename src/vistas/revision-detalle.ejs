@@ -1,0 +1,74 @@
+<%- include('parciales/cabecera') %>
+<% const base = `/admin/publicaciones/${publicacion.codigo}`; %>
+    <section class="contenedor seccion">
+      <p class="migas"><a class="enlace" href="/admin/publicaciones">Volver a la lista</a></p>
+      <h1>Revisar <%= publicacion.codigo %></h1>
+<% if (publicacion.estado !== 'en_revision') { %>
+      <p class="mensaje-error" role="alert"><%= mensajeYaRevisada %>: está <%= ETIQUETAS.estado[publicacion.estado] %>.</p>
+<% } %>
+
+      <div class="ficha">
+        <div class="galeria-revision">
+<% publicacion.fotos.forEach((ruta, i) => { %>
+          <img src="<%= ruta %>" alt="Foto <%= i + 1 %> del <%= publicacion.marca %> <%= publicacion.modelo %>" width="800" height="533">
+<% }) %>
+        </div>
+        <div class="ficha-datos">
+          <h2 class="ficha-titulo"><%= publicacion.marca %> <%= publicacion.modelo %> <%= publicacion.anio %></h2>
+          <p class="precio precio-grande"><%= formatearPrecio(publicacion.precio_centavos) %></p>
+          <dl class="especificaciones">
+            <div><dt>Kilometraje</dt><dd><%= formatearKm(publicacion.kilometraje) %></dd></div>
+            <div><dt>Transmisión</dt><dd><%= ETIQUETAS.transmision[publicacion.transmision] %></dd></div>
+            <div><dt>Combustible</dt><dd><%= ETIQUETAS.combustible[publicacion.combustible] %></dd></div>
+            <div><dt>Color</dt><dd><%= publicacion.color %></dd></div>
+            <div><dt>Motor</dt><dd><%= publicacion.motor || 'No indicado' %></dd></div>
+            <div><dt>Enviada</dt><dd><%= formatearFecha(publicacion.creado_en) %></dd></div>
+          </dl>
+          <p class="ficha-descripcion"><%= publicacion.descripcion %></p>
+
+          <h2>Vendedor</h2>
+          <dl class="especificaciones">
+            <div><dt>Nombre</dt><dd><%= publicacion.nombre %> <%= publicacion.apellido %></dd></div>
+            <div><dt>Cédula</dt><dd><%= publicacion.cedula %></dd></div>
+            <div><dt>Celular</dt><dd><%= formatearTelefono(publicacion.telefono) %></dd></div>
+            <div><dt>Correo</dt><dd><%= publicacion.correo %></dd></div>
+          </dl>
+
+<% if (publicacion.estado === 'en_revision') { %>
+<% if (accion === 'aprobar') { %>
+          <div class="decision" role="region" aria-labelledby="titulo-decision">
+            <h2 id="titulo-decision">Confirma la aprobación</h2>
+            <p>El auto aparecerá en el catálogo y el vendedor verá su publicación como Disponible.</p>
+            <form class="acciones-cita" method="post" action="<%= base %>/aprobar">
+              <button class="boton" type="submit">Sí, aprobar</button>
+              <a class="enlace" href="<%= base %>">Cancelar</a>
+            </form>
+          </div>
+<% } else if (accion === 'rechazar') { %>
+          <div class="decision" role="region" aria-labelledby="titulo-decision">
+            <h2 id="titulo-decision">Motivo del rechazo</h2>
+            <form class="formulario" method="post" action="<%= base %>/rechazar" novalidate>
+              <div class="campo">
+                <label for="motivo">Explica al vendedor por qué se rechaza (de 10 a 300 caracteres)</label>
+                <textarea id="motivo" name="motivo" rows="4" maxlength="300" required<%- error ? ' aria-invalid="true" aria-describedby="error-motivo"' : '' %>><%= motivo %></textarea>
+<% if (error) { %><p class="campo-error" id="error-motivo"><%= error %></p><% } %>
+              </div>
+              <div class="acciones-cita">
+                <button class="boton" type="submit">Rechazar publicación</button>
+                <a class="enlace" href="<%= base %>">Cancelar</a>
+              </div>
+            </form>
+          </div>
+<% } else { %>
+          <p class="ficha-acciones">
+            <a class="boton" href="<%= base %>?accion=aprobar">Aprobar</a>
+            <a class="boton boton-secundario" href="<%= base %>?accion=rechazar">Rechazar</a>
+          </p>
+<% } %>
+<% } else if (publicacion.motivo_rechazo) { %>
+          <p class="ficha-nota">Motivo del rechazo: <%= publicacion.motivo_rechazo %></p>
+<% } %>
+        </div>
+      </div>
+    </section>
+<%- include('parciales/pie') %>

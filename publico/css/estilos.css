@@ -600,6 +600,26 @@ a { color: inherit; }
 
 .bienvenida { margin: 1.5rem 0 0; }
 
+/* Revisión de publicaciones (RF-06) */
+.galeria-revision {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+  gap: 0.5rem;
+}
+
+.galeria-revision img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.decision {
+  border-top: 3px solid var(--cafe);
+  padding-top: 1rem;
+  margin-top: 1.5rem;
+}
+
 .miniaturas {
   display: flex;
   flex-wrap: wrap;

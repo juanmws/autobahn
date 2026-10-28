@@ -1,0 +1,32 @@
+<%- include('parciales/cabecera') %>
+    <section class="contenedor seccion">
+      <p class="migas"><a class="enlace" href="/admin">Volver al panel</a></p>
+      <h1>Publicaciones por revisar</h1>
+<% if (aviso) { %>
+      <p class="mensaje-exito" role="status"><%= aviso %></p>
+<% } %>
+<% if (publicaciones.length === 0) { %>
+      <p class="vacio"><%= mensajeVacio %>.</p>
+<% } else { %>
+      <p>Revisa cada auto con el resultado de su inspección en el local. Se muestran de la más antigua a la más reciente.</p>
+      <div class="envoltura-tabla">
+        <table class="tabla">
+          <thead>
+            <tr><th scope="col">Código</th><th scope="col">Auto</th><th scope="col">Vendedor</th><th scope="col">Precio</th><th scope="col">Enviada</th></tr>
+          </thead>
+          <tbody>
+<% publicaciones.forEach((p) => { %>
+            <tr>
+              <td><a class="enlace" href="/admin/publicaciones/<%= p.codigo %>"><%= p.codigo %></a></td>
+              <td><%= p.marca %> <%= p.modelo %> <%= p.anio %></td>
+              <td><%= p.nombre %> <%= p.apellido %></td>
+              <td><%= formatearPrecio(p.precio_centavos) %></td>
+              <td><%= formatearFecha(p.creado_en) %></td>
+            </tr>
+<% }) %>
+          </tbody>
+        </table>
+      </div>
+<% } %>
+    </section>
+<%- include('parciales/pie') %>

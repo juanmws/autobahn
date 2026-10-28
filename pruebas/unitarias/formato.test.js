@@ -1,5 +1,6 @@
 const {
-  formatearPrecio, formatearKm, formatearFecha, formatearPorcentaje, formatearDia, formatearBloque, ETIQUETAS,
+  formatearPrecio, formatearKm, formatearFecha, formatearPorcentaje, formatearDia, formatearBloque, formatearTelefono,
+  ETIQUETAS,
 } = require('../../src/formato');
 
 describe('formatearPrecio (RNF-09)', () => {
@@ -50,6 +51,12 @@ describe('formatearDia y formatearBloque (RNF-09)', () => {
 
   test.each([[9, '9:00 a 10:00'], [16, '16:00 a 17:00']])('el bloque de las %i es "%s"', (hora, texto) => {
     expect(formatearBloque(hora)).toBe(texto);
+  });
+});
+
+describe('formatearTelefono', () => {
+  test('separa los ocho dígitos del celular con un guion', () => {
+    expect(formatearTelefono('61234507')).toBe('6123-4507');
   });
 });
 
